@@ -1,0 +1,7 @@
+customCommands:
+  - key: <c-g>
+    description: Pick LLM commit
+    loadingText: "waiting for LLM to generate commit messages..."
+    command: commit-oracle.sh
+    context: files
+    subprocess: true

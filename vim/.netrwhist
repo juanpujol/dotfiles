@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/Users/juan/Code/@rco/rco-plus-webapp'
+let g:netrw_dirhist_3='/Users/juan/Code/@rco/rco-plus-webapp/src/lib'
+let g:netrw_dirhist_2='/Users/juan/Pictures'
+let g:netrw_dirhist_1='/Users/juan/Code/@rco/rco-plus-webapp/tests'

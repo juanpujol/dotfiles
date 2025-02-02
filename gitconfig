@@ -1,0 +1,8 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Juan Pujol
+	email = 30832+juanpujol@users.noreply.github.com  
+[maintenance]
+[core]
+	ignorecase = true
+  editor = vim
