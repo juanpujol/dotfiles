@@ -259,3 +259,6 @@ export PATH="/Users/juan/.codeium/windsurf/bin:$PATH"
 
 # opencode
 export PATH=/Users/juan/.opencode/bin:$PATH
+
+# direnv
+eval "$(direnv hook zsh)"

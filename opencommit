@@ -1,2 +1,2 @@
-OCO_OPENAI_API_KEY=REMOVED_FOR_SECURITY
+# OCO_OPENAI_API_KEY is now loaded via direnv - see .envrc
 emoji=true
