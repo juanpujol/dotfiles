@@ -1,5 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =4
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/Users/juan/Code/@yutorilabs/_experiments/yutori-app-prototype'
+let g:netrw_dirhist_7='/Users/juan/Documents'
+let g:netrw_dirhist_6='/Users/juan/Code/@laiki/laiki-app'
+let g:netrw_dirhist_5='/Users/juan/Desktop'
 let g:netrw_dirhist_4='/Users/juan/Code/@rco/rco-plus-webapp'
 let g:netrw_dirhist_3='/Users/juan/Code/@rco/rco-plus-webapp/src/lib'
 let g:netrw_dirhist_2='/Users/juan/Pictures'

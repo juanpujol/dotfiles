@@ -102,6 +102,9 @@ alias zshconfig="vi ~/.zshrc"
 alias ohmyzsh="vi ~/.oh-my-zsh"
 alias sourcezsh="source ~/.zshrc"
 
+# GNU utils
+alias timeout=gtimeout
+
 # Lazygit
 alias lg="lazygit"
 
@@ -124,6 +127,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Mise
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+eval "$(mise activate zsh)"
+
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
@@ -135,8 +142,12 @@ export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 # export GEM_HOME=$HOME/.gem
 
+# Postgres
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
 # Flutter
-export PATH="$PATH:$HOME/Code/_libs/flutter/bin"export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
+export PATH="$PATH:$HOME/Code/_libs/flutter/bin"
+export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
 
 # Terraform
 autoload -U +X bashcompinit && bashcompinit
@@ -220,3 +231,34 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# Superfile
+spf() {
+    os=$(uname -s)
+
+    # Linux
+    if [[ "$os" == "Linux" ]]; then
+        export SPF_LAST_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/superfile/lastdir"
+    fi
+
+    # macOS
+    if [[ "$os" == "Darwin" ]]; then
+        export SPF_LAST_DIR="$HOME/Library/Application Support/superfile/lastdir"
+    fi
+
+    command spf "$@"
+
+    [ ! -f "$SPF_LAST_DIR" ] || {
+        . "$SPF_LAST_DIR"
+        rm -f -- "$SPF_LAST_DIR" > /dev/null
+    }
+}
+
+# Added by Windsurf
+export PATH="/Users/juan/.codeium/windsurf/bin:$PATH"
+
+# Langflow
+. "$HOME/.langflow/uv/env"
+
+# opencode
+export PATH=/Users/juan/.opencode/bin:$PATH
