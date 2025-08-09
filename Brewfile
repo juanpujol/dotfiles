@@ -80,8 +80,6 @@ brew "tursodatabase/tap/turso"
 cask "1password-cli"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "google-cloud-sdk"
-# GPU-based terminal emulator
-cask "kitty"
 vscode "4ops.terraform"
 vscode "ahmadawais.shades-of-purple"
 vscode "albert.tabout"
