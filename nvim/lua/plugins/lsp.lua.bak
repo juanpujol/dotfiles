@@ -1,0 +1,59 @@
+return {
+  "neovim/nvim-lspconfig",
+  opts = {
+    servers = {
+      -- Separate Svelte LSP config
+      svelte = {
+        -- Basic Svelte LSP settings
+      },
+      -- ESLint config with reduced scope
+      eslint = {
+        -- Only run ESLint on specific files
+        filetypes = { "svelte" },
+        settings = {
+          -- Reduce workload
+          workingDirectory = { mode = "location" },
+          run = "onSave", -- Only run on save, not on type
+          rulesCustomizations = {
+            { rule = "style/*", severity = "off", fixable = true },
+            { rule = "format/*", severity = "off", fixable = true },
+            { rule = "*-indent", severity = "off", fixable = true },
+            { rule = "*-spacing", severity = "off", fixable = true },
+            { rule = "*-spaces", severity = "off", fixable = true },
+            { rule = "*-order", severity = "off", fixable = true },
+            { rule = "*-dangle", severity = "off", fixable = true },
+            { rule = "*-newline", severity = "off", fixable = true },
+            { rule = "*quotes", severity = "off", fixable = true },
+            { rule = "*semi", severity = "off", fixable = true },
+          },
+        },
+      },
+    },
+    setup = {
+      eslint = function()
+        -- Add a way to manually trigger ESLint
+        vim.api.nvim_create_user_command("EslintFix", function()
+          vim.cmd("EslintFixAll")
+        end, {})
+
+        -- Optional: Format on save with a timeout
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          callback = function(event)
+            if vim.bo[event.buf].filetype == "svelte" then
+              local timeout = 5000 -- 5 second timeout
+              local timer = vim.loop.new_timer()
+              timer:start(timeout, 0, function()
+                vim.schedule(function()
+                  print("ESLint formatting timed out")
+                end)
+              end)
+              vim.cmd("EslintFixAll")
+              timer:close()
+            end
+          end,
+        })
+        return false
+      end,
+    },
+  },
+}
