@@ -70,7 +70,7 @@ ZSH_THEME="cobalt2"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search direnv)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -258,3 +258,6 @@ export PATH=/Users/juan/.opencode/bin:$PATH
 
 # direnv
 eval "$(direnv hook zsh)"
+
+# Disable mail check
+unset MAILCHECK
