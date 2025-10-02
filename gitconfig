@@ -5,4 +5,5 @@
 [maintenance]
 [core]
 	ignorecase = true
-  editor = vim
+   editor = vim
+   excludesfile = ~/gitignore_global
