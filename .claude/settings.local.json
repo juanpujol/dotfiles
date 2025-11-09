@@ -4,7 +4,8 @@
       "Bash(cat:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.lazyvim.org)",
-      "WebFetch(domain:mise.jdx.dev)"
+      "WebFetch(domain:mise.jdx.dev)",
+      "WebSearch"
     ],
     "deny": []
   }
