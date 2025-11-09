@@ -2,3 +2,6 @@
 .DS_Store
 .crush
 raycast/extensions/
+
+# TMux plugins (managed by TPM)
+tmux/plugins/
