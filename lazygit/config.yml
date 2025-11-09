@@ -1,7 +1,7 @@
 customCommands:
-  - key: '<c-g>'
-    description: 'AI commit'
-    context: 'files'
-    command: 'source ~/.secrets/openai.env && export OCO_OPENAI_API_KEY="${OPENAI_BEAKYN_JP_KEY}" && aicommit2'
-    output: 'terminal'
-    loadingText: 'Generating AI commit message...'
+  - key: "<c-g>"
+    description: "AI commit"
+    context: "files"
+    command: "aicommit2"
+    output: "terminal"
+    loadingText: "Generating AI commit message..."

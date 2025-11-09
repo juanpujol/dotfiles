@@ -2,3 +2,10 @@
 bun = "latest"
 node = "lts"
 ruby = "3.4.2"
+
+[env]
+# Load secrets globally from synced 1Password files
+_.file = "~/.secrets/openai.env"
+
+# Map to opencommit's expected variable (available everywhere)
+OCO_OPENAI_API_KEY = "{{ env.OPENAI_BEAKYN_JP_KEY }}"
