@@ -1,7 +1,7 @@
 customCommands:
-  - key: <c-g>
-    description: Pick LLM commit
-    loadingText: "waiting for LLM to generate commit messages..."
-    command: commit-oracle.sh
-    context: files
-    subprocess: true
+  - key: '<c-g>'
+    description: 'AI commit'
+    context: 'files'
+    command: 'aicommit2'
+    output: 'terminal'
+    loadingText: 'Generating AI commit message...'
