@@ -152,6 +152,7 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 [ -s "/Users/juan/.bun/_bun" ] && source "/Users/juan/.bun/_bun"
 
 # mise (loaded last to override all tool paths)
+export MISE_GLOBAL_CONFIG_FILE="$HOME/.dotfiles/mise/config.toml"
 eval "$(mise activate zsh)"
 
 # Starship
@@ -260,9 +261,6 @@ export PATH="/Users/juan/.codeium/windsurf/bin:$PATH"
 
 # opencode
 export PATH=/Users/juan/.opencode/bin:$PATH
-
-# direnv
-eval "$(direnv hook zsh)"
 
 # OpenCommit - source OpenAI key for oco
 if [ -f ~/.secrets/openai.env ]; then
