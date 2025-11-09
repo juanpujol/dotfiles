@@ -31,4 +31,6 @@ vim.opt.spelllang = "en_us,pt_br"
 -- Set eslint
 vim.g.eslint_on_type = false
 
-vim.lsp.set_log_level("DEBUG")
+-- Set LSP logging to warn level to prevent large log files
+-- Use "debug" or "trace" only when troubleshooting LSP issues
+vim.lsp.set_log_level("warn")
