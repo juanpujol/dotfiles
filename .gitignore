@@ -5,3 +5,6 @@ raycast/extensions/
 
 # TMux plugins (managed by TPM)
 tmux/plugins/
+
+# Oh-My-Zsh (installed via script)
+oh-my-zsh/
