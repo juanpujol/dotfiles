@@ -1,1 +1,1 @@
-{"providers":{"openai":{}},"models":{"large":{"model":"gpt-5","provider":"openai","reasoning_effort":"minimal","max_tokens":128000},"small":{"model":"gpt-4o","provider":"openai","max_tokens":8192}}}
+{"providers":{"openai":{}},"models":{"large":{"model":"gpt-5-mini","provider":"openai","reasoning_effort":"medium","max_tokens":128000},"small":{"model":"anthropic.claude-3-5-haiku-20241022-v1:0","provider":"bedrock","max_tokens":50000}}}
