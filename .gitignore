@@ -14,3 +14,4 @@ oh-my-zsh/
 # Mise local config (contains sensitive env vars)
 .mise.toml
 .claude/
+crush-config.json
