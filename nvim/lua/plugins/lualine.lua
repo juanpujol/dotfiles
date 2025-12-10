@@ -12,9 +12,9 @@ return {
       local colors = {
         n = "#89b4fa",
         i = "#a6e3a1",
-        v = "#cba6f7",
-        V = "#cba6f7",
-        ["\22"] = "#cba6f7",
+        v = "#caa6f8",
+        V = "#caa6f8",
+        ["\22"] = "#caa6f8",
         c = "#fab387",
         R = "#f38ba8",
         t = "#94e2d5",
