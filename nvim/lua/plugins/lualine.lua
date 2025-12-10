@@ -8,13 +8,27 @@ return {
     opts.sections = opts.sections or {}
     -- opts.sections.lualine_z = opts.sections.lualine_z or {}
 
+    local function mode_color()
+      local colors = {
+        n = "#89b4fa",
+        i = "#a6e3a1",
+        v = "#cba6f7",
+        V = "#cba6f7",
+        ["\22"] = "#cba6f7",
+        c = "#fab387",
+        R = "#f38ba8",
+        t = "#94e2d5",
+      }
+      return { fg = colors[vim.fn.mode()] or "#89b4fa", bg = "NONE" }
+    end
+
     -- Add rounded cap to the far LEFT (beginning of lualine_a)
     table.insert(opts.sections.lualine_a, 1, {
       function()
         return ""
       end,
       padding = 0,
-      color = { fg = "#89b4fa", bg = "NONE" }, -- match your lualine_a bg color
+      color = mode_color,
     })
     -- Add rounded cap to the far RIGHT (end of lualine_z)
     table.insert(opts.sections.lualine_z, {
@@ -22,7 +36,7 @@ return {
         return ""
       end,
       padding = 0,
-      color = { fg = "#89b4fa", bg = "NONE" }, -- match your lualine_z bg color
+      color = mode_color,
     })
 
     -- Create CUSTOM neo-tree extension with rounded cap
@@ -34,7 +48,7 @@ return {
               return ""
             end,
             padding = 0,
-            color = { fg = "#89b4fa", bg = "NONE" },
+            color = mode_color,
           },
           {
             function()
