@@ -17,7 +17,7 @@ return {
         ["\22"] = "#caa6f8",
         c = "#fab387",
         R = "#f38ba8",
-        t = "#94e2d5",
+        t = "#a6e3a1",
       }
       return { fg = colors[vim.fn.mode()] or "#89b4fa", bg = "NONE" }
     end
