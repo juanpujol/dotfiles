@@ -1,0 +1,10 @@
+theme = Catppuccin Mocha
+font-size = 20
+keybind = shift+enter=text:\x1b\r
+
+# Cursor trail shader
+custom-shader = shaders/cursor_blaze.glsl
+custom-shader-animation = true
+cursor-style = block
+cursor-color = #f5f0c4
+
