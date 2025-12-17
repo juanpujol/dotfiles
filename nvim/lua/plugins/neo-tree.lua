@@ -4,6 +4,7 @@ return {
     window = {
       position = "right",
     },
+    log_level = "warn",
     filesystem = {
       filtered_items = {
         visible = false, -- when true, they will just be displayed differently than normal items
