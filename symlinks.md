@@ -2,7 +2,7 @@
 
 This document maps all places that would need to be updated if renaming `.dotfiles` to `dotfiles`.
 
-## Symlinks (14 total)
+## Symlinks (15 total)
 
 All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreated:
 
@@ -12,14 +12,15 @@ All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreat
 4. `~/.config/raycast` → `/Users/juan/.dotfiles/raycast`
 5. `~/.config/zellij` → `/Users/juan/.dotfiles/zellij`
 6. `~/.config/kitty` → `/Users/juan/.dotfiles/kitty`
-7. `~/.opencommit` → `/Users/juan/.dotfiles/opencommit`
-8. `~/.vim` → `/Users/juan/.dotfiles/vim`
-9. `~/.tmux.conf` → `/Users/juan/.dotfiles/tmux.conf`
-10. `~/.zshrc` → `/Users/juan/.dotfiles/zshrc`
-11. `~/.aerospace.toml` → `/Users/juan/.dotfiles/aerospace.toml`
-12. `~/.tmux` → `/Users/juan/.dotfiles/tmux`
-13. `~/.oh-my-zsh` → `/Users/juan/.dotfiles/oh-my-zsh`
-14. `~/.gitconfig` → `/Users/juan/.dotfiles/gitconfig`
+7. `~/.config/ghostty` → `/Users/juan/.dotfiles/ghostty`
+8. `~/.opencommit` → `/Users/juan/.dotfiles/opencommit`
+9. `~/.vim` → `/Users/juan/.dotfiles/vim`
+10. `~/.tmux.conf` → `/Users/juan/.dotfiles/tmux.conf`
+11. `~/.zshrc` → `/Users/juan/.dotfiles/zshrc`
+12. `~/.aerospace.toml` → `/Users/juan/.dotfiles/aerospace.toml`
+13. `~/.tmux` → `/Users/juan/.dotfiles/tmux`
+14. `~/.oh-my-zsh` → `/Users/juan/.dotfiles/oh-my-zsh`
+15. `~/.gitconfig` → `/Users/juan/.dotfiles/gitconfig`
 
 ## Files Containing `.dotfiles` References
 
