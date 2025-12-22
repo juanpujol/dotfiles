@@ -11,6 +11,9 @@ return {
         -- Include ignored files (like .env) along with tracked and untracked
         cmd = "git ls-files --exclude-standard --cached --others; git ls-files --ignored --exclude-standard",
       },
+      status = {
+        preview = "bat --style=numbers --color=always {file}",
+      },
     },
   },
 }
