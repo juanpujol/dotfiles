@@ -16,6 +16,8 @@ return {
         V = "#caa6f8",
         ["\22"] = "#caa6f8",
         c = "#fab387",
+        cv = "#fab387",
+        ce = "#fab387",
         R = "#f38ba8",
         t = "#a6e3a1",
       }
