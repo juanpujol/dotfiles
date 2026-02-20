@@ -22,7 +22,9 @@ $python\
 [](fg:color_blue bg:color_bg3)\
 $docker_context\
 $conda\
-[](fg:color_bg3 bg:color_bg1)\
+[](fg:color_bg3 bg:color_supabase)\
+${custom.supabase}\
+[](fg:color_supabase bg:color_bg1)\
 $time\
 [ ](fg:color_bg1)\
 $line_break$character"""
@@ -41,6 +43,7 @@ color_purple = '#b16286'
 color_red = '#cc241d'
 color_yellow = '#d0755c'
 color_black = '#282828'
+color_supabase = '#6b6a1a'
 
 [os]
 disabled = false
@@ -173,3 +176,13 @@ vimcmd_symbol = '[](bold fg:color_green)'
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
 vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+
+[custom.supabase]
+description = "Linked Supabase project name"
+command = "~/.dotfiles/scripts/supabase-project-name"
+when = "test -f supabase/.temp/project-ref"
+ignore_timeout = true
+symbol = ""
+format = '[[ $symbol $output ](fg:color_fg0 bg:color_supabase)]($style)'
+style = "bg:color_supabase"
+shell = ["bash", "--noprofile", "--norc"]

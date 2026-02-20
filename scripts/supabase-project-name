@@ -1,0 +1,17 @@
+#!/bin/bash
+# Shows the linked Supabase project name (cached) or ref as fallback.
+# On first run or ref change, fetches the name in the background for next prompt render.
+
+ref=$(cat supabase/.temp/project-ref)
+cached_ref=""
+[ -f supabase/.temp/project-ref-cached ] && cached_ref=$(cat supabase/.temp/project-ref-cached)
+
+if [ -f supabase/.temp/project-name ] && [ "$ref" = "$cached_ref" ]; then
+  cat supabase/.temp/project-name
+else
+  # Ref changed or no cache — invalidate and re-fetch
+  rm -f supabase/.temp/project-name
+  echo "$ref"
+  (name=$(supabase projects list 2>/dev/null | grep "$ref" | awk -F'|' '{gsub(/^ +| +$/, "", $4); print $4}')
+   [ -n "$name" ] && printf '%s' "$name" > supabase/.temp/project-name && printf '%s' "$ref" > supabase/.temp/project-ref-cached) &
+fi
