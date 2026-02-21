@@ -262,5 +262,4 @@ export PATH=/Users/juan/.opencode/bin:$PATH
 unset MAILCHECK
 
 # Zoxide (must be last)
-eval "$(zoxide init zsh)"
-alias cd="z"
+eval "$(zoxide init zsh --cmd cd)"
