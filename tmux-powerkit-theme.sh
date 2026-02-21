@@ -39,7 +39,7 @@ declare -gA THEME_COLORS=(
 
     [popup-bg]="#1e1e2e"
     [popup-fg]="#cdd6f4"
-    [popup-border]="#cba6f7"
+    [popup-border]="#fab387"
     [menu-bg]="#1e1e2e"
     [menu-fg]="#cdd6f4"
     [menu-selected-bg]="#cba6f7"
