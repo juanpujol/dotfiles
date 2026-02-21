@@ -1,4 +1,8 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
     "allow": [
       "Bash(cat:*)",
@@ -6,12 +10,9 @@
       "WebFetch(domain:www.lazyvim.org)",
       "WebFetch(domain:mise.jdx.dev)",
       "WebSearch",
-      "Bash(nvim:*)"
+      "Bash(nvim:*)",
+      "Bash(tmux capture-pane:*)"
     ],
     "deny": []
-  },
-  "attribution": {
-    "commit": "",
-    "pr": ""
   }
 }

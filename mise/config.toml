@@ -1,7 +1,7 @@
 [tools]
 bun = "latest"
 lazydocker = "latest"
-node = "lts"
+node = "24"
 python = "latest"
 ruby = "3.4.2"
 
@@ -10,6 +10,4 @@ ruby = "3.4.2"
 _.file = "~/.secrets/openai.env"
 
 [settings]
-
-[settings.ruby]
-compile = false
+all_compile = false
