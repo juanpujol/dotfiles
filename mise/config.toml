@@ -1,5 +1,6 @@
 [tools]
 bun = "latest"
+lazydocker = "latest"
 node = "lts"
 python = "latest"
 ruby = "3.4.2"
