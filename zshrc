@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Terminal compatibility
+[[ "$TERM" == "xterm-ghostty" || "$TERM" == "xterm-kitty" ]] && export TERM=xterm-256color
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -8,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="cobalt2"
+ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -119,7 +122,7 @@ alias oldvim="vim"
 alias zj=zellij
 
 # Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -144,16 +147,16 @@ export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export PATH="$PATH:$HOME/Code/_libs/flutter/bin"
 export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
 
-# Terraform
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+# Terraform (macOS only)
+[[ -x /opt/homebrew/bin/terraform ]] && autoload -U +X bashcompinit && bashcompinit
+[[ -x /opt/homebrew/bin/terraform ]] && complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # bun completions
 [ -s "/Users/juan/.bun/_bun" ] && source "/Users/juan/.bun/_bun"
 
 # mise (loaded last to override all tool paths)
-export MISE_GLOBAL_CONFIG_FILE="$HOME/.dotfiles/mise/config.toml"
-eval "$(mise activate zsh)"
+export MISE_GLOBAL_CONFIG_FILE="$HOME/dotfiles/mise/config.toml"
+[ -x "$HOME/.local/bin/mise" ] && [ -x "$HOME/.local/bin/mise" ] && eval "$($HOME/.local/bin/mise activate zsh)"
 
 # Starship
 eval "$(starship init zsh)"
@@ -210,15 +213,11 @@ alias ll="eza -al --group-directories-first"
 alias ls="eza --color=always --long --git --no-filesize --group-directories-first --icons=always --no-time --no-user --no-permissions"
 alias lt="eza -al --sort=modified"
 
-# Zoxide
-eval "$(zoxide init zsh)"
-alias cd="z"
-
 # Bat
 alias cat="bat"
 
-# NPM Check
-export PATH="/Users/juan/.bun/bin:$PATH"
+# Bun
+export PATH="$HOME/.bun/bin:$PATH"
 
 # Yasi
 alias y="yazi"
@@ -257,7 +256,7 @@ function y() {
 export PATH="/Users/juan/.codeium/windsurf/bin:$PATH"
 
 # Langflow
-. "$HOME/.langflow/uv/env"
+[ -f "$HOME/.langflow/uv/env" ] && . "$HOME/.langflow/uv/env"
 
 # opencode
 export PATH=/Users/juan/.opencode/bin:$PATH
@@ -273,3 +272,7 @@ alias aic="aicommit2"
 
 # Disable mail check
 unset MAILCHECK
+
+# Zoxide (must be last)
+eval "$(zoxide init zsh)"
+alias cd="z"
