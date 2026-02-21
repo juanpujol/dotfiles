@@ -110,9 +110,6 @@ alias lg="lazygit"
 # Lazydocker
 alias ldk="lazydocker"
 
-# Commit Oracle
-export PATH=$PATH:~/Code/_libs/commit-oracle
-
 # Neovim
 alias vim="nvim"
 alias vi="nvim"
@@ -260,15 +257,6 @@ export PATH="/Users/juan/.codeium/windsurf/bin:$PATH"
 
 # opencode
 export PATH=/Users/juan/.opencode/bin:$PATH
-
-# OpenCommit - source OpenAI key for oco
-if [ -f ~/.secrets/openai.env ]; then
-    source ~/.secrets/openai.env
-    export OCO_OPENAI_API_KEY="${OPENAI_BEAKYN_JP_KEY}"
-fi
-
-# aicommit2 alias
-alias aic="aicommit2"
 
 # Disable mail check
 unset MAILCHECK

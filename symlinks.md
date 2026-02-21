@@ -2,7 +2,7 @@
 
 This document maps all places that would need to be updated if renaming `.dotfiles` to `dotfiles`.
 
-## Symlinks (15 total)
+## Symlinks (14 total)
 
 All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreated:
 
@@ -13,8 +13,7 @@ All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreat
 5. `~/.config/zellij` → `/Users/juan/.dotfiles/zellij`
 6. `~/.config/kitty` → `/Users/juan/.dotfiles/kitty`
 7. `~/.config/ghostty` → `/Users/juan/.dotfiles/ghostty`
-8. `~/.opencommit` → `/Users/juan/.dotfiles/opencommit`
-9. `~/.vim` → `/Users/juan/.dotfiles/vim`
+8. `~/.vim` → `/Users/juan/.dotfiles/vim`
 10. `~/.tmux.conf` → `/Users/juan/.dotfiles/tmux.conf`
 11. `~/.zshrc` → `/Users/juan/.dotfiles/zshrc`
 12. `~/.aerospace.toml` → `/Users/juan/.dotfiles/aerospace.toml`

@@ -9,7 +9,6 @@ tmux/plugins/
 
 # Oh-My-Zsh (installed via script)
 oh-my-zsh/
-.aicommit2/
 
 # Mise local config (contains sensitive env vars)
 .mise.toml
