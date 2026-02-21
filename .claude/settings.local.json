@@ -9,5 +9,9 @@
       "Bash(nvim:*)"
     ],
     "deny": []
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
   }
 }
