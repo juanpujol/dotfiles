@@ -2,6 +2,7 @@
 [user]
 	name = Juan Pujol
 	email = 30832+juanpujol@users.noreply.github.com  
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILWmVdkqrPuwcRijg4aXMFphbntL7nYLojbwLF/dNiQ1
 [maintenance]
 [core]
 	ignorecase = true
@@ -13,3 +14,9 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = !gh auth git-credential
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
