@@ -13,6 +13,9 @@ $git_status\
 $c\
 $rust\
 $golang\
+$nodejs\
+$bun\
+$deno\
 $php\
 $java\
 $kotlin\
@@ -88,6 +91,7 @@ format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
 symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+detect_files = ["package.json", ".node-version", ".nvmrc", "!bun.lock", "!bun.lockb", "!bunfig.toml"]
 
 [c]
 symbol = " "
@@ -170,6 +174,7 @@ min_time_to_notify = 45000
 symbol = "🍔"
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+detect_files = ["bun.lock", "bun.lockb", "bunfig.toml"]
 
 [deno]
 style = "bg:green"
