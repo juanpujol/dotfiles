@@ -216,8 +216,10 @@ This fixes macOS code signature caching issues with treesitter parsers that noic
 ## For Future Agents
 
 1. If `:` closes neovim, it's almost certainly noice.nvim
-2. **TRY THE CODESIGN FIX FIRST** (see above) - this is the actual solution on macOS
-3. If that doesn't work, try the nuclear option (clear state/cache/lazy)
-4. If still broken, disable noice cmdline as workaround
-5. Check issue #1184 for updates
-6. The issue is related to macOS code signature caching, not noice.nvim itself
+2. If opening any filetype (e.g. `.md`) closes neovim, same root cause - macOS codesign issue with treesitter parsers
+3. **TRY THE CODESIGN FIX FIRST** (see above) - this is the actual solution on macOS
+4. This happens after any LazyVim update that pulls in new plugins (e.g. `render-markdown.nvim`, `neotest-elixir`) or updates treesitter parsers
+5. If that doesn't work, try the nuclear option (clear state/cache/lazy)
+6. If still broken, disable noice cmdline as workaround
+7. Check issue #1184 for updates
+8. The issue is related to macOS code signature caching, not noice.nvim itself
