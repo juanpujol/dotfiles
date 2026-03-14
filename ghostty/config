@@ -2,6 +2,9 @@ theme = Catppuccin Mocha
 shell-integration-features = ssh-terminfo,ssh-env
 clipboard-read = allow
 clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+mouse-hide-while-typing = true
+confirm-close-surface = false
 font-size = 20
 keybind = shift+enter=text:\x1b\r
 
