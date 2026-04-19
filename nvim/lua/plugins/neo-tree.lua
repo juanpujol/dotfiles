@@ -6,6 +6,7 @@ return {
     },
     log_level = "warn",
     filesystem = {
+      follow_current_file = { enabled = false },
       filtered_items = {
         visible = false, -- when true, they will just be displayed differently than normal items
         hide_dotfiles = true,
