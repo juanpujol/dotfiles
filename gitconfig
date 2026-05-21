@@ -2,7 +2,7 @@
 [user]
 	name = Juan Pujol
 	email = 30832+juanpujol@users.noreply.github.com  
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILWmVdkqrPuwcRijg4aXMFphbntL7nYLojbwLF/dNiQ1
+	signingkey = /Users/juan/.ssh/id_ed25519_signing_2026_05_12.pub
 [maintenance]
 [core]
 	ignorecase = true
@@ -18,5 +18,6 @@
 	format = ssh
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+	allowedSignersFile = /Users/juan/.config/git/allowed_signers
 [commit]
 	gpgsign = true
