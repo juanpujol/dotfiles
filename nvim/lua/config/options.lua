@@ -18,8 +18,70 @@ vim.opt.completeopt = { "menuone", "noselect" }
 -- Enable persistent undo
 vim.opt.undofile = true
 
--- Enable access to the system clipboard
-vim.opt.clipboard = "unnamed,unnamedplus"
+-- Enable system clipboard only when a compatible provider exists.
+local function executable(cmd)
+  return vim.fn.executable(cmd) == 1
+end
+
+if executable("pbcopy") and executable("pbpaste") then
+  vim.g.clipboard = {
+    name = "pbcopy",
+    copy = {
+      ["+"] = "pbcopy",
+      ["*"] = "pbcopy",
+    },
+    paste = {
+      ["+"] = "pbpaste",
+      ["*"] = "pbpaste",
+    },
+    cache_enabled = 0,
+  }
+  vim.opt.clipboard = "unnamedplus"
+elseif executable("wl-copy") and executable("wl-paste") then
+  vim.g.clipboard = {
+    name = "wl-clipboard",
+    copy = {
+      ["+"] = "wl-copy --foreground --type text/plain",
+      ["*"] = "wl-copy --foreground --primary --type text/plain",
+    },
+    paste = {
+      ["+"] = "wl-paste --no-newline",
+      ["*"] = "wl-paste --primary --no-newline",
+    },
+    cache_enabled = 0,
+  }
+  vim.opt.clipboard = "unnamedplus"
+elseif executable("xclip") then
+  vim.g.clipboard = {
+    name = "xclip",
+    copy = {
+      ["+"] = "xclip -selection clipboard",
+      ["*"] = "xclip -selection primary",
+    },
+    paste = {
+      ["+"] = "xclip -selection clipboard -o",
+      ["*"] = "xclip -selection primary -o",
+    },
+    cache_enabled = 0,
+  }
+  vim.opt.clipboard = "unnamedplus"
+elseif executable("xsel") then
+  vim.g.clipboard = {
+    name = "xsel",
+    copy = {
+      ["+"] = "xsel --clipboard --input",
+      ["*"] = "xsel --primary --input",
+    },
+    paste = {
+      ["+"] = "xsel --clipboard --output",
+      ["*"] = "xsel --primary --output",
+    },
+    cache_enabled = 0,
+  }
+  vim.opt.clipboard = "unnamedplus"
+else
+  vim.opt.clipboard = ""
+end
 
 -- Set column line
 vim.opt.colorcolumn = "80"

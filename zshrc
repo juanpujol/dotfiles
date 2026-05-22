@@ -119,7 +119,9 @@ alias oldvim="vim"
 alias zj=zellij
 
 # Homebrew
-[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  [[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -127,29 +129,39 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+  export PATH="$PNPM_HOME:$PATH"
+fi
 
 # Ruby
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+  export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+  export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+fi
 # export GEM_HOME=$HOME/.gem
 
 # Postgres
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+fi
 
 # Flutter
-export PATH="$PATH:$HOME/Code/_libs/flutter/bin"
-export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
+if [[ -d "$HOME/Code/_libs/flutter/bin" ]]; then
+  export PATH="$PATH:$HOME/Code/_libs/flutter/bin"
+fi
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PATH="/opt/homebrew/opt/ruby@2.7/bin:$PATH"
+fi
 
 # Terraform (macOS only)
 [[ -x /opt/homebrew/bin/terraform ]] && autoload -U +X bashcompinit && bashcompinit
 [[ -x /opt/homebrew/bin/terraform ]] && complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # bun completions
-[ -s "/Users/juan/.bun/_bun" ] && source "/Users/juan/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # mise (loaded last to override all tool paths)
 export MISE_GLOBAL_CONFIG_FILE="$HOME/dotfiles/mise/config.toml"
@@ -215,6 +227,7 @@ alias cat="bat"
 
 # Bun
 export PATH="$HOME/.bun/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Yasi
 alias y="yazi"
@@ -250,13 +263,15 @@ function y() {
 # }
 
 # Added by Windsurf
-export PATH="/Users/juan/.codeium/windsurf/bin:$PATH"
+if [[ -d "$HOME/.codeium/windsurf/bin" ]]; then
+  export PATH="$HOME/.codeium/windsurf/bin:$PATH"
+fi
 
 # Langflow
 [ -f "$HOME/.langflow/uv/env" ] && . "$HOME/.langflow/uv/env"
 
 # opencode
-export PATH=/Users/juan/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
 # Disable mail check
 unset MAILCHECK
