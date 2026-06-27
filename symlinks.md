@@ -9,6 +9,7 @@ All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreat
 1. `~/.config/nvim` → `/Users/juan/.dotfiles/nvim`
 2. `~/.config/lazygit` → `/Users/juan/.dotfiles/lazygit`
 3. `~/.config/starship.toml` → `/Users/juan/.dotfiles/starship.toml`
+3b. `~/.config/herdr/config.toml` → `/Users/juan/.dotfiles/herdr/config.toml` (file-only symlink — the dir stays real so herdr's logs/sockets don't enter the repo)
 4. `~/.config/raycast` → `/Users/juan/.dotfiles/raycast`
 5. `~/.config/zellij` → `/Users/juan/.dotfiles/zellij`
 6. `~/.config/kitty` → `/Users/juan/.dotfiles/kitty`

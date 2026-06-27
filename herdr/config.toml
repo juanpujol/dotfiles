@@ -1,0 +1,92 @@
+# herdr configuration — symlinked to ~/.config/herdr/config.toml
+#
+# Keybinds mirror my tmux muscle memory. Apply changes live with:
+#   herdr server reload-config
+# Vim-aware ctrl+hjkl nav is split across three pieces (see herdr#281):
+#   this file's [[keys.command]] binds -> bin/herdr-nav -> nvim keymaps.lua
+
+[theme]
+name = "dracula"
+auto_switch = false
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+agent_panel_sort = "priority"
+[keys]
+# Match tmux prefix C-a (herdr default is ctrl+b)
+prefix = "ctrl+a"
+
+# Prefixed pane focus — no-script fallback, works from any pane.
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Move the goto navigator (default prefix+g) to prefix+w, freeing prefix+g.
+# Unbind the default workspace_picker that lived on prefix+w (buggy navigate-mode).
+goto = "prefix+w"
+workspace_picker = ""
+
+# Tab nav like tmux M-h/M-l (prev/next window) — direct, no prefix.
+previous_tab = "alt+h"
+next_tab = "alt+l"
+
+# Workspace cycle on alt+j/k (vim j-down/k-up). Reliable next/previous actions,
+# not the buggy navigate-mode arrows. alt+1..9 still jumps by number.
+next_workspace = "alt+j"
+previous_workspace = "alt+k"
+
+# Agent cycle on shift+alt+j/k (layered above the alt+j/k workspace cycle).
+next_agent = "alt+shift+j"
+previous_agent = "alt+shift+k"
+
+# Jump straight to a workspace with alt+1..9 (mirrors tmux M-1..9 window jumps;
+# herdr workspace ≈ tmux session). Tab switching stays on default prefix+1..9.
+[keys.indexed]
+workspaces = "alt"
+
+# Direct ctrl+hjkl -> vim-aware navigation via bin/herdr-nav.
+# type="shell" runs the command silently (no pane opened). The script forwards
+# the chord into (n)vim when it's focused, else moves herdr pane focus.
+[[keys.command]]
+key = "ctrl+h"
+type = "shell"
+command = "/Users/juan/.dotfiles/bin/herdr-nav left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "shell"
+command = "/Users/juan/.dotfiles/bin/herdr-nav down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "shell"
+command = "/Users/juan/.dotfiles/bin/herdr-nav up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "shell"
+command = "/Users/juan/.dotfiles/bin/herdr-nav right"
+
+# herdr-plus Quick Actions launcher (fuzzy command launcher)
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "cloudmanic.herdr-plus.quick-actions"
+description = "Quick Actions launcher"
+
+# Floating lazygit (tmux-floax style): opens the lazygit-popup plugin pane as an
+# overlay in the focused pane's cwd; closes when you quit lazygit.
+[[keys.command]]
+key = "prefix+g"
+type = "shell"
+command = "\"${HERDR_BIN_PATH:-herdr}\" plugin pane open --plugin lazygit-popup --entrypoint open --placement overlay --cwd \"${HERDR_ACTIVE_PANE_CWD:-$HOME}\""
+description = "Floating lazygit"
+
+[experimental]
+pane_history = true
+switch_ascii_input_source_in_prefix = false
+
+[ui.toast]
+delivery = "herdr"

@@ -1,5 +1,11 @@
 return {
   "christoomey/vim-tmux-navigator",
+  -- tmux-only: it drives `tmux select-pane` and checks $TMUX. Inside herdr it
+  -- can't cross panes, so disable it there and let keymaps.lua's herdr nav own
+  -- ctrl+hjkl instead (see ogulcancelik/herdr#281).
+  cond = function()
+    return not (vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "")
+  end,
   cmd = {
     "TmuxNavigateLeft",
     "TmuxNavigateDown",
