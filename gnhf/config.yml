@@ -1,0 +1,6 @@
+agent: opencode
+maxConsecutiveFailures: 3
+preventSleep: true
+
+commitMessage:
+  preset: conventional

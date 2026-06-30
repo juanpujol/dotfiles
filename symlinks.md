@@ -2,7 +2,7 @@
 
 This document maps all places that would need to be updated if renaming `.dotfiles` to `dotfiles`.
 
-## Symlinks (14 total)
+## Symlinks (16 total)
 
 All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreated:
 
@@ -21,6 +21,7 @@ All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreat
 13. `~/.tmux` → `/Users/juan/.dotfiles/tmux`
 14. `~/.oh-my-zsh` → `/Users/juan/.dotfiles/oh-my-zsh`
 15. `~/.gitconfig` → `/Users/juan/.dotfiles/gitconfig`
+16. `~/.gnhf/config.yml` → `/Users/juan/.dotfiles/gnhf/config.yml` (file-only symlink — the dir stays real so gnhf's runs/logs don't enter the repo)
 
 ## Files Containing `.dotfiles` References
 
@@ -45,7 +46,7 @@ No direct `.dotfiles` references found in:
 
 1. **Backup current setup**: `cp -r ~/.dotfiles ~/dotfiles-backup`
 2. **Rename directory**: `mv ~/.dotfiles ~/dotfiles`
-3. **Remove all 14 symlinks**: `rm ~/.config/nvim ~/.config/lazygit ...` (list above)
+3. **Remove all 16 symlinks**: `rm ~/.config/nvim ~/.config/lazygit ...` (list above)
 4. **Recreate symlinks** with new path: `ln -s ~/dotfiles/nvim ~/.config/nvim` (etc)
 5. **Update git remote** if needed
 6. **Test all configurations** (nvim, tmux, zsh, etc)
