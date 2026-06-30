@@ -11,7 +11,8 @@
       "WebFetch(domain:mise.jdx.dev)",
       "WebSearch",
       "Bash(nvim:*)",
-      "Bash(tmux capture-pane:*)"
+      "Bash(tmux capture-pane:*)",
+      "Bash(herdr --version)"
     ],
     "deny": []
   }
