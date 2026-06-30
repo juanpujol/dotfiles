@@ -229,6 +229,9 @@ alias cat="bat"
 export PATH="$HOME/.bun/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Go
+export PATH="$HOME/go/bin:$PATH"
+
 # Yasi
 alias y="yazi"
 function y() {
