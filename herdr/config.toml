@@ -4,7 +4,11 @@ onboarding = false
 # Keybinds mirror my tmux muscle memory. Apply changes live with:
 #   herdr server reload-config
 # Vim-aware ctrl+hjkl nav is split across three pieces (see herdr#281):
-#   this file's [[keys.command]] binds -> bin/herdr-nav -> nvim keymaps.lua
+#   this file's plugin_action binds -> herdr/plugins/vim-nav/navigate.sh -> nvim keymaps.lua
+# The vim-nav plugin is linked once (it is NOT symlinked into the repo):
+#   herdr plugin link ~/.dotfiles/herdr/plugins/vim-nav
+# We use plugin_action, not type="shell": herdr leaks shell-command children as
+# zombies (one per keypress) but reaps plugin-action children.
 
 [theme]
 name = "rose-pine"
@@ -47,28 +51,29 @@ previous_agent = "alt+shift+k"
 [keys.indexed]
 workspaces = "alt"
 
-# Direct ctrl+hjkl -> vim-aware navigation via bin/herdr-nav.
-# type="shell" runs the command silently (no pane opened). The script forwards
-# the chord into (n)vim when it's focused, else moves herdr pane focus.
+# Direct ctrl+hjkl -> vim-aware navigation via the vim-nav plugin.
+# type="plugin_action" (NOT "shell"): herdr reaps plugin-action children but
+# leaks shell-command children as zombies (one per keypress -> os error 35).
+# Logic lives in herdr/plugins/vim-nav/navigate.sh.
 [[keys.command]]
 key = "ctrl+h"
-type = "shell"
-command = "/Users/juan/.dotfiles/bin/herdr-nav left"
+type = "plugin_action"
+command = "vim-nav.left"
 
 [[keys.command]]
 key = "ctrl+j"
-type = "shell"
-command = "/Users/juan/.dotfiles/bin/herdr-nav down"
+type = "plugin_action"
+command = "vim-nav.down"
 
 [[keys.command]]
 key = "ctrl+k"
-type = "shell"
-command = "/Users/juan/.dotfiles/bin/herdr-nav up"
+type = "plugin_action"
+command = "vim-nav.up"
 
 [[keys.command]]
 key = "ctrl+l"
-type = "shell"
-command = "/Users/juan/.dotfiles/bin/herdr-nav right"
+type = "plugin_action"
+command = "vim-nav.right"
 
 # herdr-plus Quick Actions launcher (fuzzy command launcher)
 [[keys.command]]

@@ -1,0 +1,36 @@
+id = "vim-nav"
+name = "Vim Herdr Navigation"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Seamless ctrl+h/j/k/l navigation across herdr panes and Vim/Neovim splits"
+platforms = ["linux", "macos"]
+
+# One action per direction, bound to ctrl+h/j/k/l in config.toml as
+# type="plugin_action" (command = "vim-nav.<dir>"). We use plugin_action rather
+# than type="shell" on purpose: herdr reaps plugin-action children but NOT
+# shell-command children, so the old type="shell" binds leaked one zombie per
+# keypress until the process table filled up (os error 35). See navigate.sh.
+
+[[actions]]
+id = "left"
+title = "Navigate left (vim/herdr)"
+contexts = ["global"]
+command = ["bash", "navigate.sh", "left"]
+
+[[actions]]
+id = "down"
+title = "Navigate down (vim/herdr)"
+contexts = ["global"]
+command = ["bash", "navigate.sh", "down"]
+
+[[actions]]
+id = "up"
+title = "Navigate up (vim/herdr)"
+contexts = ["global"]
+command = ["bash", "navigate.sh", "up"]
+
+[[actions]]
+id = "right"
+title = "Navigate right (vim/herdr)"
+contexts = ["global"]
+command = ["bash", "navigate.sh", "right"]

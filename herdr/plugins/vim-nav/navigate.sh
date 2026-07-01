@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
-# herdr-nav <left|down|up|right>
+# vim-nav — herdr side. Invoked by a plugin_action as: navigate.sh <left|down|up|right>
 #
-# vim-aware herdr pane navigation — the herdr equivalent of vim-tmux-navigator.
-# Bound to ctrl+<hjkl> in herdr via [[keys.command]] type="shell".
+# Vim-aware herdr pane navigation — the herdr equivalent of vim-tmux-navigator.
+# If the focused pane runs Vim/Neovim in the foreground, forward the matching
+# ctrl+<hjkl> chord *into* the pane so Vim moves its own splits (and hands focus
+# back to herdr at an edge split — see nvim/lua/config/keymaps.lua). Otherwise
+# move herdr's pane focus directly.
 #
-# If the focused pane is running Vim/Neovim in the foreground, forward the
-# matching ctrl+<hjkl> chord *into* the pane so Vim moves its own splits (and
-# hands focus back to herdr at an edge split — see nvim keymaps.lua). For any
-# other foreground process, move herdr's pane focus directly.
+# Bound via type="plugin_action" (NOT type="shell"): herdr reaps plugin-action
+# children but leaks shell-command children as zombies (one per keypress), which
+# eventually fills the process table (os error 35). See herdr-plugin.toml.
 #
-# NOTE: herdr does NOT set HERDR_PANE_ID for type="shell" keybind commands
-# (only for plugin_action commands), so we resolve the focused pane id from
-# `herdr pane process-info --current` rather than the environment.
-#
-# Based on ogulcancelik/herdr#281. Requires jq; without it, detection is
-# skipped and every key just moves herdr pane focus (no Vim awareness).
+# Requires jq; without it, detection is skipped and every key just moves herdr
+# pane focus (no Vim awareness).
 set -euo pipefail
 export PATH="/opt/homebrew/bin:$PATH"
 
-dir="${1:?usage: herdr-nav <left|down|up|right>}"
+dir="${1:?usage: navigate.sh <left|down|up|right>}"
 herdr="${HERDR_BIN_PATH:-herdr}"
 
 case "$dir" in
@@ -26,7 +24,7 @@ case "$dir" in
   down)  key="ctrl+j" ;;
   up)    key="ctrl+k" ;;
   right) key="ctrl+l" ;;
-  *) echo "herdr-nav: unknown direction: $dir" >&2; exit 2 ;;
+  *) echo "navigate.sh: unknown direction: $dir" >&2; exit 2 ;;
 esac
 
 # Foreground process names meaning "Vim is in control": vi, vim, nvim, view,
