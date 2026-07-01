@@ -6,7 +6,7 @@ onboarding = false
 # Vim-aware ctrl+hjkl nav is split across three pieces (see herdr#281):
 #   this file's plugin_action binds -> herdr/plugins/vim-nav/navigate.sh -> nvim keymaps.lua
 # The vim-nav plugin is linked once (it is NOT symlinked into the repo):
-#   herdr plugin link ~/.dotfiles/herdr/plugins/vim-nav
+#   herdr plugin link ~/dotfiles/herdr/plugins/vim-nav
 # We use plugin_action, not type="shell": herdr leaks shell-command children as
 # zombies (one per keypress) but reaps plugin-action children.
 

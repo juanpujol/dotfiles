@@ -1,59 +1,30 @@
 # Symlinks and References Map
 
-This document maps all places that would need to be updated if renaming `.dotfiles` to `dotfiles`.
+This document maps the live symlinks for the canonical `~/dotfiles` checkout.
 
-## Symlinks (16 total)
+## Compatibility
 
-All these symlinks point to `/Users/juan/.dotfiles` and would need to be recreated:
+`~/.dotfiles` is kept as a compatibility symlink to `~/dotfiles`. This lets old generated files, caches, shell history, or external app references keep working while the canonical path is `~/dotfiles`.
 
-1. `~/.config/nvim` → `/Users/juan/.dotfiles/nvim`
-2. `~/.config/lazygit` → `/Users/juan/.dotfiles/lazygit`
-3. `~/.config/starship.toml` → `/Users/juan/.dotfiles/starship.toml`
-3b. `~/.config/herdr/config.toml` → `/Users/juan/.dotfiles/herdr/config.toml` (file-only symlink — the dir stays real so herdr's logs/sockets don't enter the repo)
-4. `~/.config/raycast` → `/Users/juan/.dotfiles/raycast`
-5. `~/.config/zellij` → `/Users/juan/.dotfiles/zellij`
-6. `~/.config/kitty` → `/Users/juan/.dotfiles/kitty`
-7. `~/.config/ghostty` → `/Users/juan/.dotfiles/ghostty`
-8. `~/.vim` → `/Users/juan/.dotfiles/vim`
-10. `~/.tmux.conf` → `/Users/juan/.dotfiles/tmux.conf`
-11. `~/.zshrc` → `/Users/juan/.dotfiles/zshrc`
-12. `~/.aerospace.toml` → `/Users/juan/.dotfiles/aerospace.toml`
-13. `~/.tmux` → `/Users/juan/.dotfiles/tmux`
-14. `~/.oh-my-zsh` → `/Users/juan/.dotfiles/oh-my-zsh`
-15. `~/.gitconfig` → `/Users/juan/.dotfiles/gitconfig`
-16. `~/.gnhf/config.yml` → `/Users/juan/.dotfiles/gnhf/config.yml` (file-only symlink — the dir stays real so gnhf's runs/logs don't enter the repo)
+## Symlinks
 
-## Files Containing `.dotfiles` References
+These symlinks should point to `/Users/juan/dotfiles`:
 
-These files contain the string `.dotfiles` but are mostly in submodules/documentation:
+1. `~/.config/nvim` -> `/Users/juan/dotfiles/nvim`
+2. `~/.config/lazygit` -> `/Users/juan/dotfiles/lazygit`
+3. `~/.config/starship.toml` -> `/Users/juan/dotfiles/starship.toml`
+4. `~/.config/herdr/config.toml` -> `/Users/juan/dotfiles/herdr/config.toml` (file-only symlink; the dir stays real so herdr logs/sockets do not enter the repo)
+5. `~/.config/raycast` -> `/Users/juan/dotfiles/raycast`
+6. `~/.config/zellij` -> `/Users/juan/dotfiles/zellij`
+7. `~/.config/ghostty` -> `/Users/juan/dotfiles/ghostty`
+8. `~/.vim` -> `/Users/juan/dotfiles/vim`
+9. `~/.tmux.conf` -> `/Users/juan/dotfiles/tmux.conf`
+10. `~/.zshrc` -> `/Users/juan/dotfiles/zshrc`
+11. `~/.tmux` -> `/Users/juan/dotfiles/tmux`
+12. `~/.oh-my-zsh` -> `/Users/juan/dotfiles/oh-my-zsh`
+13. `~/.gitconfig` -> `/Users/juan/dotfiles/gitconfig`
+14. `~/.gnhf/config.yml` -> `/Users/juan/dotfiles/gnhf/config.yml` (file-only symlink; the dir stays real so gnhf runs/logs do not enter the repo)
 
-1. `/Users/juan/.dotfiles/tmux.conf` - May contain self-references
-2. `/Users/juan/.dotfiles/AGENTS.md` - Documentation
-3. `/Users/juan/.dotfiles/oh-my-zsh/README.md` - Submodule documentation
-4. `/Users/juan/.dotfiles/oh-my-zsh/plugins/shell-proxy/README.md` - Submodule
-5. `/Users/juan/.dotfiles/oh-my-zsh/plugins/rake-fast/README.md` - Submodule
-6. `/Users/juan/.dotfiles/oh-my-zsh/plugins/mix-fast/README.md` - Submodule
+## Migration Notes
 
-## Shell Configuration
-
-No direct `.dotfiles` references found in:
-- `~/.zshrc` (symlinked, so no hardcoded paths)
-- `~/.zprofile`
-- `~/.bashrc`
-- `~/.bash_profile`
-
-## Steps to Rename
-
-1. **Backup current setup**: `cp -r ~/.dotfiles ~/dotfiles-backup`
-2. **Rename directory**: `mv ~/.dotfiles ~/dotfiles`
-3. **Remove all 16 symlinks**: `rm ~/.config/nvim ~/.config/lazygit ...` (list above)
-4. **Recreate symlinks** with new path: `ln -s ~/dotfiles/nvim ~/.config/nvim` (etc)
-5. **Update git remote** if needed
-6. **Test all configurations** (nvim, tmux, zsh, etc)
-
-## Notes
-
-- No shell aliases reference `.dotfiles` directly
-- Most configurations use symlinks, so they automatically point to the right place once recreated
-- The oh-my-zsh submodule references are internal and won't affect the rename
-- Git repository will remain intact during the rename
+The repository used to live at `~/.dotfiles`. The canonical path is now `~/dotfiles`, with `~/.dotfiles` retained as a compatibility symlink.

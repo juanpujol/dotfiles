@@ -1,4 +1,4 @@
-# Agent Guidelines for .dotfiles Repository
+# Agent Guidelines for dotfiles Repository
 
 ## Build/Test/Lint Commands
 - **Raycast Extensions**: `npm run lint`, `npm run fix-lint`, `npm run build`, `npm run dev`

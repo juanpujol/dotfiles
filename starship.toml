@@ -184,7 +184,7 @@ format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [custom.supabase]
 description = "Linked Supabase project name"
-command = "~/.dotfiles/scripts/supabase-project-name"
+command = "~/dotfiles/scripts/supabase-project-name"
 when = "test -f supabase/.temp/project-ref"
 ignore_timeout = true
 symbol = ""

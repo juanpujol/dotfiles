@@ -9,7 +9,7 @@
 
 - **OS:** macOS Tahoe 26.01 (Darwin 25.2.0)
 - **Neovim:** Started at 0.11.4, upgraded to 0.11.5 during debugging
-- **Config:** LazyVim-based setup at `~/.dotfiles/nvim`
+- **Config:** LazyVim-based setup at `~/dotfiles/nvim`
 
 ## Root Cause
 
@@ -39,10 +39,10 @@ The crash occurs during `CmdlineEnter` event - debug logging showed `CmdlineEnte
 
 #### Backed up and removed custom configs:
 ```bash
-mv ~/.dotfiles/nvim/lua/plugins ~/.dotfiles/nvim/lua/plugins.bak
-mv ~/.dotfiles/nvim/lua/config/keymaps.lua ~/.dotfiles/nvim/lua/config/keymaps.lua.bak
-mv ~/.dotfiles/nvim/lua/config/autocmds.lua ~/.dotfiles/nvim/lua/config/autocmds.lua.bak
-mv ~/.dotfiles/nvim/lua/config/options.lua ~/.dotfiles/nvim/lua/config/options.lua.bak
+mv ~/dotfiles/nvim/lua/plugins ~/dotfiles/nvim/lua/plugins.bak
+mv ~/dotfiles/nvim/lua/config/keymaps.lua ~/dotfiles/nvim/lua/config/keymaps.lua.bak
+mv ~/dotfiles/nvim/lua/config/autocmds.lua ~/dotfiles/nvim/lua/config/autocmds.lua.bak
+mv ~/dotfiles/nvim/lua/config/options.lua ~/dotfiles/nvim/lua/config/options.lua.bak
 ```
 **Result:** Still broken - proved issue is in LazyVim core, not user config
 
