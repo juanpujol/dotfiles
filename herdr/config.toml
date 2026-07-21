@@ -82,13 +82,15 @@ type = "plugin_action"
 command = "cloudmanic.herdr-plus.quick-actions"
 description = "Quick Actions launcher"
 
-# Floating lazygit (tmux-floax style): opens the lazygit-popup plugin pane as an
-# overlay in the focused pane's cwd; closes when you quit lazygit.
+# Floating lazygit (tmux-floax style): opens a modal popup in the focused pane's
+# cwd and closes when you quit lazygit.
 [[keys.command]]
 key = "prefix+g"
-type = "shell"
-command = "\"${HERDR_BIN_PATH:-herdr}\" plugin pane open --plugin lazygit-popup --entrypoint open --placement overlay --cwd \"${HERDR_ACTIVE_PANE_CWD:-$HOME}\""
+type = "popup"
+command = "lazygit"
 description = "Floating lazygit"
+width = "95%"
+height = "95%"
 
 [experimental]
 pane_history = true

@@ -1,15 +1,17 @@
-# Minimal manifest-only herdr plugin: a floating lazygit overlay.
+# Minimal manifest-only herdr plugin: a floating lazygit popup.
 # No binary/build — it just declares a pane that runs lazygit. A prefix+g
-# keybind (type="shell") opens it via `herdr plugin pane open --placement overlay`.
+# keybind (type="shell") opens it via `herdr plugin pane open`.
 id = "lazygit-popup"
 name = "Lazygit Popup"
 version = "0.1.0"
-min_herdr_version = "0.7.0"
-description = "Floating lazygit overlay, opened on a keybind"
+min_herdr_version = "0.7.4"
+description = "Floating lazygit popup, opened on a keybind"
 platforms = ["linux", "macos"]
 
 [[panes]]
 id = "open"
 title = "lazygit"
-placement = "overlay"
+placement = "popup"
+width = "90%"
+height = "90%"
 command = ["lazygit"]

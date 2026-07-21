@@ -2,6 +2,7 @@ tap "hashicorp/tap"
 tap "homebrew/bundle"
 tap "libsql/sqld"
 tap "oven-sh/bun"
+tap "can1357/tap"
 tap "tursodatabase/tap"
 # Codec library for encoding and decoding AV1 video streams
 brew "aom"
@@ -61,6 +62,8 @@ brew "python@3.11"
 brew "ripgrep"
 # Cross-shell prompt for astronauts
 brew "starship"
+# Coding agent with the IDE wired in
+brew "can1357/tap/omp"
 # Official tldr client written in Rust
 brew "tlrc"
 # Terminal multiplexer
