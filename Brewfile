@@ -62,6 +62,8 @@ brew "python@3.11"
 brew "ripgrep"
 # Cross-shell prompt for astronauts
 brew "starship"
+# Command-line tool for creating and testing Tree-sitter parsers
+brew "tree-sitter-cli"
 # Coding agent with the IDE wired in
 brew "can1357/tap/omp"
 # Official tldr client written in Rust

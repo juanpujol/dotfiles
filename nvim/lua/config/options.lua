@@ -95,4 +95,4 @@ vim.g.eslint_on_type = false
 
 -- Set LSP logging to warn level to prevent large log files
 -- Use "debug" or "trace" only when troubleshooting LSP issues
-vim.lsp.set_log_level("warn")
+vim.lsp.log.set_level("warn")
