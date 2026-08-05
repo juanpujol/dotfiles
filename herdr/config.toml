@@ -11,7 +11,7 @@ onboarding = false
 # zombies (one per keypress) but reaps plugin-action children.
 
 [theme]
-name = "rose-pine"
+name = "vesper"
 auto_switch = false
 
 [ui]
@@ -98,3 +98,6 @@ switch_ascii_input_source_in_prefix = false
 
 [ui.toast]
 delivery = "herdr"
+
+[ui.sound]
+enabled = true
