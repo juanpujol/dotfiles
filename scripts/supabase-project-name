@@ -1,17 +1,39 @@
 #!/bin/bash
 # Shows the linked Supabase project name (cached) or ref as fallback.
 # On first run or ref change, fetches the name in the background for next prompt render.
+#
+# Usage:
+#   supabase-project-name             print the name, refreshing the cache when stale
+#   supabase-project-name -q PATTERN  exit 0 if the name contains PATTERN (case-insensitive),
+#                                     no output and no cache refresh — for starship `when`
 
-ref=$(cat supabase/.temp/project-ref)
+temp=supabase/.temp
+
+ref=$(cat "$temp/project-ref" 2>/dev/null) || exit 1
+[ -n "$ref" ] || exit 1
+
 cached_ref=""
-[ -f supabase/.temp/project-ref-cached ] && cached_ref=$(cat supabase/.temp/project-ref-cached)
+[ -f "$temp/project-ref-cached" ] && cached_ref=$(cat "$temp/project-ref-cached")
 
-if [ -f supabase/.temp/project-name ] && [ "$ref" = "$cached_ref" ]; then
-  cat supabase/.temp/project-name
+if [ -f "$temp/project-name" ] && [ "$ref" = "$cached_ref" ]; then
+  name=$(cat "$temp/project-name")
+  cached=1
 else
+  name=$ref
+  cached=0
+fi
+
+if [ "${1-}" = "-q" ]; then
+  shopt -s nocasematch
+  case "$name" in *"$2"*) exit 0 ;; esac
+  exit 1
+fi
+
+echo "$name"
+
+if [ "$cached" = 0 ]; then
   # Ref changed or no cache — invalidate and re-fetch
-  rm -f supabase/.temp/project-name
-  echo "$ref"
+  rm -f "$temp/project-name"
   (name=$(supabase projects list 2>/dev/null | grep "$ref" | awk -F'|' '{gsub(/^ +| +$/, "", $4); print $4}')
-   [ -n "$name" ] && printf '%s' "$name" > supabase/.temp/project-name && printf '%s' "$ref" > supabase/.temp/project-ref-cached) &
+   [ -n "$name" ] && printf '%s' "$name" > "$temp/project-name" && printf '%s' "$ref" > "$temp/project-ref-cached") &
 fi

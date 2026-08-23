@@ -25,9 +25,9 @@ $haskell\
 $python\
 [](fg:green bg:sapphire)\
 $conda\
-[](fg:sapphire bg:teal)\
 ${custom.supabase}\
-[](fg:teal bg:lavender)\
+${custom.supabase_prod}\
+${custom.supabase_none}\
 $time\
 [ ](fg:lavender)\
 $cmd_duration\
@@ -185,11 +185,26 @@ format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 [custom.supabase]
 description = "Linked Supabase project name"
 command = "~/dotfiles/scripts/supabase-project-name"
-when = "test -f supabase/.temp/project-ref"
+when = "test -f supabase/.temp/project-ref && ! ~/dotfiles/scripts/supabase-project-name -q prod"
 ignore_timeout = true
 symbol = ""
-format = '[[ $symbol $output ](fg:crust bg:teal)]($style)'
-style = "bg:teal"
+format = '[](fg:sapphire bg:teal)[ $symbol $output ](fg:crust bg:teal)[](fg:teal bg:lavender)'
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.supabase_prod]
+description = "Linked Supabase project name, flagged when it looks like production"
+command = "~/dotfiles/scripts/supabase-project-name"
+when = "~/dotfiles/scripts/supabase-project-name -q prod"
+ignore_timeout = true
+symbol = ""
+format = '[](fg:sapphire bg:red)[ $symbol $output ](fg:crust bg:red)[](fg:red bg:lavender)'
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.supabase_none]
+description = "Stands in for the Supabase segment outside a linked project"
+command = "true"
+when = "! test -f supabase/.temp/project-ref"
+format = '[](fg:sapphire bg:teal)[](fg:teal bg:lavender)'
 shell = ["bash", "--noprofile", "--norc"]
 
 [palettes.catppuccin_mocha]
