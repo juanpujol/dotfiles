@@ -232,7 +232,8 @@ alias lt="eza -al --sort=modified"
 alias cat="bat"
 
 # Bun
-export PATH="$HOME/.bun/bin:$PATH"
+# Bun uses $XDG_CACHE_HOME/.bun/bin when XDG_CACHE_HOME is set; keep it before the legacy ~/.bun/bin.
+export PATH="${XDG_CACHE_HOME:-$HOME/.cache}/.bun/bin:$HOME/.bun/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Go
