@@ -1,0 +1,13 @@
+{
+  "keybinds": {
+    "prompt.queue": "none",
+    "input.newline": "shift+return,ctrl+return,alt+return,ctrl+j",
+    "session.line.up": "alt+k",
+    "session.line.down": "alt+j",
+    "session.half.page.up": "alt+u",
+    "session.half.page.down": "alt+d"
+  },
+  "theme": {
+    "name": "tokyonight"
+  }
+}

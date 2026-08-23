@@ -24,6 +24,15 @@ These symlinks should point to `/Users/juan/dotfiles`:
 12. `~/.oh-my-zsh` -> `/Users/juan/dotfiles/oh-my-zsh`
 13. `~/.gitconfig` -> `/Users/juan/dotfiles/gitconfig`
 14. `~/.gnhf/config.yml` -> `/Users/juan/dotfiles/gnhf/config.yml` (file-only symlink; the dir stays real so gnhf runs/logs do not enter the repo)
+15. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (shared V1/V2 config)
+16. `~/.config/opencode/tui.json` -> `/Users/juan/dotfiles/opencode/tui.json` (V1 TUI config)
+17. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (V2 CLI/TUI config)
+
+## Outbound shortcuts
+
+These point *out* of the repo. They are convenience shortcuts, not config links, and they are gitignored rather than tracked, so recreate them by hand on a new machine.
+
+1. `obsidian` -> `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/JP` (Obsidian vault "JP", synced via iCloud)
 
 ## Migration Notes
 
