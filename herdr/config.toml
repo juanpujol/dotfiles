@@ -94,6 +94,7 @@ height = "95%"
 
 [experimental]
 pane_history = true
+kitty_graphics = true
 switch_ascii_input_source_in_prefix = false
 
 [ui.toast]
