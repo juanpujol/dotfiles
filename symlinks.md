@@ -27,6 +27,7 @@ These symlinks should point to `/Users/juan/dotfiles`:
 15. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (shared V1/V2 config)
 16. `~/.config/opencode/tui.json` -> `/Users/juan/dotfiles/opencode/tui.json` (V1 TUI config)
 17. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (V2 CLI/TUI config)
+18. `~/.config/opencode/plugins/tui/tab-management.ts` -> `/Users/juan/dotfiles/opencode/plugins/tui/tab-management.ts` (V2 session-tab shortcuts)
 
 ## Outbound shortcuts
 

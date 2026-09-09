@@ -14,7 +14,7 @@
 # Requires jq; without it, detection is skipped and every key just moves herdr
 # pane focus (no Vim awareness).
 set -euo pipefail
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
 dir="${1:?usage: navigate.sh <left|down|up|right>}"
 herdr="${HERDR_BIN_PATH:-herdr}"

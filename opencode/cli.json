@@ -1,4 +1,5 @@
 {
+  "plugins": ["./plugins/tab-management"],
   "keybinds": {
     "prompt.queue": "none",
     "input.newline": "shift+return,ctrl+return,alt+return,ctrl+j",

@@ -1,5 +1,5 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# User-local binaries (agents, Starship, Zoxide, and other direct installs).
+export PATH="$HOME/.local/bin:$PATH"
 
 # Terminal compatibility
 [[ "$TERM" == "xterm-ghostty" || "$TERM" == "xterm-kitty" ]] && export TERM=xterm-256color
@@ -234,7 +234,6 @@ alias cat="bat"
 # Bun
 # Bun uses $XDG_CACHE_HOME/.bun/bin when XDG_CACHE_HOME is set; keep it before the legacy ~/.bun/bin.
 export PATH="${XDG_CACHE_HOME:-$HOME/.cache}/.bun/bin:$HOME/.bun/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
 
 # Go
 export PATH="$HOME/go/bin:$PATH"

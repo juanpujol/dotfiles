@@ -52,9 +52,6 @@ previous_agent = "alt+shift+k"
 workspaces = "alt"
 
 # Direct ctrl+hjkl -> vim-aware navigation via the vim-nav plugin.
-# type="plugin_action" (NOT "shell"): herdr reaps plugin-action children but
-# leaks shell-command children as zombies (one per keypress -> os error 35).
-# Logic lives in herdr/plugins/vim-nav/navigate.sh.
 [[keys.command]]
 key = "ctrl+h"
 type = "plugin_action"
