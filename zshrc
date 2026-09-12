@@ -280,7 +280,7 @@ fi
 [ -f "$HOME/.langflow/uv/env" ] && . "$HOME/.langflow/uv/env"
 
 # opencode
-export PATH="$HOME/.opencode/bin:$PATH"
+alias oc="opencode"
 
 # Disable mail check
 unset MAILCHECK

@@ -24,10 +24,9 @@ These symlinks should point to `/Users/juan/dotfiles`:
 12. `~/.oh-my-zsh` -> `/Users/juan/dotfiles/oh-my-zsh`
 13. `~/.gitconfig` -> `/Users/juan/dotfiles/gitconfig`
 14. `~/.gnhf/config.yml` -> `/Users/juan/dotfiles/gnhf/config.yml` (file-only symlink; the dir stays real so gnhf runs/logs do not enter the repo)
-15. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (shared V1/V2 config)
-16. `~/.config/opencode/tui.json` -> `/Users/juan/dotfiles/opencode/tui.json` (V1 TUI config)
-17. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (V2 CLI/TUI config)
-18. `~/.config/opencode/plugins/tui/tab-management.ts` -> `/Users/juan/dotfiles/opencode/plugins/tui/tab-management.ts` (V2 session-tab shortcuts)
+15. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (OpenCode V2 config)
+16. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (OpenCode V2 CLI/TUI config)
+17. `~/.config/opencode/plugins/tab-management/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/tab-management/tui.ts` (session-tab shortcuts)
 
 ## Outbound shortcuts
 

@@ -9,6 +9,14 @@
     "session.half.page.down": "alt+d"
   },
   "theme": {
-    "name": "tokyonight"
+    "name": "tokyonight",
+    "mode": "system"
+  },
+  "animations": true,
+  "scroll": {
+    "acceleration": true
+  },
+  "prompt": {
+    "image_preview": true
   }
 }

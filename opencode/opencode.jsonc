@@ -1,26 +1,26 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "permission": {
-    "bash": {
-      "*": "allow",
-      "supabase": "deny",
-      "supabase *": "deny",
-      "bunx supabase": "deny",
-      "bunx supabase *": "deny",
-      "bun x supabase": "deny",
-      "bun x supabase *": "deny",
-      "npx supabase": "deny",
-      "npx supabase *": "deny",
-      "npm exec supabase": "deny",
-      "npm exec supabase *": "deny",
-      "pnpm dlx supabase": "deny",
-      "pnpm dlx supabase *": "deny",
-      "yarn dlx supabase": "deny",
-      "yarn dlx supabase *": "deny",
-      "./node_modules/.bin/supabase": "deny",
-      "./node_modules/.bin/supabase *": "deny",
-      "*/supabase": "deny",
-      "*/supabase *": "deny"
-    }
+  "permissions": [
+    { "action": "shell", "resource": "*", "effect": "allow" },
+    { "action": "shell", "resource": "supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "bunx supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "bun x supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "npx supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "npm exec supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "pnpm dlx supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "yarn dlx supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "./node_modules/.bin/supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "*/supabase *", "effect": "deny" },
+    { "action": "shell", "resource": "varlock reveal *", "effect": "deny" },
+    { "action": "shell", "resource": "*varlock reveal*", "effect": "deny" },
+    { "action": "shell", "resource": "varlock printenv *", "effect": "deny" },
+    { "action": "shell", "resource": "*varlock printenv*", "effect": "deny" },
+    { "action": "shell", "resource": "varlock explain *", "effect": "deny" },
+    { "action": "shell", "resource": "*varlock explain*", "effect": "deny" },
+    { "action": "shell", "resource": "varlock load --format *", "effect": "deny" },
+    { "action": "shell", "resource": "*varlock load --format*", "effect": "deny" }
+  ],
+  "websearch": {
+    "provider": "random"
   }
 }
