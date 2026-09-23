@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CONFIG_FILE="$HOME/.config/rpi-dev/config"
+TOKEN_FILE="$HOME/.local/state/rpi-dev/proxy-token"
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: with-1p <command> [arguments...]" >&2
+  exit 2
+fi
+
+if [[ ! -r "$CONFIG_FILE" || ! -r "$TOKEN_FILE" ]]; then
+  echo "rpi-dev 1Password proxy is not installed; run 'rpi-dev install' on the Mac" >&2
+  exit 1
+fi
+
+# shellcheck disable=SC1090
+source "$CONFIG_FILE"
+
+if [[ -z "${RPI_DEV_PROXY_URL:-}" ]]; then
+  echo "RPI_DEV_PROXY_URL is missing from $CONFIG_FILE" >&2
+  exit 1
+fi
+
+if ! curl --fail --silent --max-time 2 "$RPI_DEV_PROXY_URL/healthz" >/dev/null 2>&1; then
+  echo "Mac 1Password proxy is unavailable; run 'rpi-dev doctor' on the Mac" >&2
+  exit 1
+fi
+
+exec env \
+  OP_HOST_PROXY_URL="$RPI_DEV_PROXY_URL" \
+  OP_HOST_PROXY_TOKEN="$(cat "$TOKEN_FILE")" \
+  "$@"

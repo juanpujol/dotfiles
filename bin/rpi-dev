@@ -1,0 +1,551 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+resolve_source() {
+  local source_path="${BASH_SOURCE[0]}"
+  local source_dir
+
+  while [[ -L "$source_path" ]]; do
+    source_dir="$(cd -P "$(dirname "$source_path")" && pwd)"
+    source_path="$(readlink "$source_path")"
+    [[ "$source_path" != /* ]] && source_path="$source_dir/$source_path"
+  done
+
+  cd -P "$(dirname "$source_path")" && pwd
+}
+
+BIN_DIR="$(resolve_source)"
+DOTFILES_ROOT="$(cd "$BIN_DIR/.." && pwd)"
+CONFIG_DIR="$HOME/.config/rpi-dev"
+CONFIG_FILE="$CONFIG_DIR/config"
+STATE_DIR="$HOME/.local/state/rpi-dev"
+LOG_DIR="$STATE_DIR/logs"
+TOKEN_FILE="$STATE_DIR/proxy-token"
+TUNNEL_SOCKET="$STATE_DIR/tunnel.sock"
+LAST_1P_SUCCESS_FILE="$STATE_DIR/last-1p-success"
+LAUNCH_AGENTS_DIR="$HOME/Library/LaunchAgents"
+PROXY_LABEL="dev.juan.rpi-op-proxy"
+TUNNEL_LABEL="dev.juan.rpi-tunnel"
+PROXY_PLIST="$LAUNCH_AGENTS_DIR/$PROXY_LABEL.plist"
+TUNNEL_PLIST="$LAUNCH_AGENTS_DIR/$TUNNEL_LABEL.plist"
+LAUNCH_DOMAIN="gui/$(id -u)"
+
+usage() {
+  cat <<'EOF'
+Usage: rpi-dev <command>
+
+Commands:
+  install       Create local state, LaunchAgents, and the Pi wrapper
+  start         Start the 1Password proxy and SSH tunnel
+  stop          Stop the managed proxy and tunnel
+  restart       Restart the managed proxy and tunnel
+  status        Show concise service and forwarding status
+  doctor        Run detailed, secret-safe diagnostics
+  logs SERVICE  Show logs for proxy or tunnel
+  test-1p       Fetch development secrets and print presence only
+  rotate-token  Replace the restricted proxy token
+  proxy-service Internal LaunchAgent entry point
+  tunnel-service Internal LaunchAgent entry point
+EOF
+}
+
+write_default_config() {
+  mkdir -p "$CONFIG_DIR"
+  chmod 700 "$CONFIG_DIR"
+
+  if [[ -e "$CONFIG_FILE" ]]; then
+    return
+  fi
+
+  cat >"$CONFIG_FILE" <<EOF
+# Nonsecret rpi-dev configuration.
+RPI_DEV_HOST=rpi
+RPI_DEV_LOCAL_REPO=$HOME/Code/@laiki/laiki2
+RPI_DEV_REMOTE_REPO=/home/admin/Code/@laiki/laiki2
+RPI_DEV_PROXY_HOST=127.0.0.1
+RPI_DEV_PROXY_PORT=17691
+RPI_DEV_REMOTE_PROXY_PORT=27691
+RPI_DEV_PROXY_TEST_LOCAL_PORT=17692
+RPI_DEV_OP_BIN=/opt/homebrew/bin/op
+RPI_DEV_MISE_BIN=$HOME/.local/bin/mise
+RPI_DEV_OPENCODE_LOCAL_PORT=4096
+RPI_DEV_OPENCODE_REMOTE_PORT=49374
+RPI_DEV_SUPABASE_API_LOCAL_PORT=55321
+RPI_DEV_SUPABASE_API_REMOTE_PORT=54321
+RPI_DEV_SUPABASE_DB_LOCAL_PORT=55322
+RPI_DEV_SUPABASE_DB_REMOTE_PORT=54322
+RPI_DEV_SUPABASE_STUDIO_LOCAL_PORT=55323
+RPI_DEV_SUPABASE_STUDIO_REMOTE_PORT=54323
+RPI_DEV_SUPABASE_MAIL_LOCAL_PORT=55324
+RPI_DEV_SUPABASE_MAIL_REMOTE_PORT=54324
+EOF
+  chmod 600 "$CONFIG_FILE"
+}
+
+load_config() {
+  write_default_config
+  # shellcheck disable=SC1090
+  source "$CONFIG_FILE"
+  RPI_DEV_PROXY_TEST_LOCAL_PORT=${RPI_DEV_PROXY_TEST_LOCAL_PORT:-17692}
+}
+
+tunnel_control_available() {
+  [[ -S "$TUNNEL_SOCKET" ]] && \
+    /usr/bin/ssh -S "$TUNNEL_SOCKET" -O check "$RPI_DEV_HOST" >/dev/null 2>&1
+}
+
+rpi_ssh() {
+  local ssh_args=(-o BatchMode=yes -o ConnectTimeout=5)
+
+  if tunnel_control_available; then
+    ssh_args+=(-S "$TUNNEL_SOCKET")
+  fi
+
+  /usr/bin/ssh "${ssh_args[@]}" "$RPI_DEV_HOST" "$@"
+}
+
+ensure_local_state() {
+  mkdir -p "$STATE_DIR" "$LOG_DIR" "$HOME/.local/bin" "$LAUNCH_AGENTS_DIR"
+  chmod 700 "$STATE_DIR"
+
+  if [[ ! -s "$TOKEN_FILE" ]]; then
+    umask 077
+    /opt/homebrew/bin/openssl rand -hex 32 >"$TOKEN_FILE"
+  fi
+  chmod 600 "$TOKEN_FILE"
+}
+
+render_plist() {
+  local template=$1
+  local destination=$2
+
+  sed "s|__HOME__|$HOME|g" "$template" >"$destination"
+  chmod 600 "$destination"
+  plutil -lint "$destination" >/dev/null
+}
+
+deploy_pi_client() {
+  local remote_config
+
+  remote_config=$(cat <<EOF
+# Nonsecret endpoint for the Mac 1Password proxy.
+RPI_DEV_PROXY_URL=http://127.0.0.1:$RPI_DEV_REMOTE_PROXY_PORT
+EOF
+)
+
+  rpi_ssh \
+    'umask 077
+     mkdir -p "$HOME/.config/rpi-dev" "$HOME/.local/state/rpi-dev" \
+       "$HOME/.local/libexec/rpi-dev" "$HOME/.local/bin"
+     chmod 700 "$HOME/.config/rpi-dev" "$HOME/.local/state/rpi-dev"'
+
+  printf '%s\n' "$remote_config" | rpi_ssh \
+    'umask 077; cat >"$HOME/.config/rpi-dev/config"; chmod 600 "$HOME/.config/rpi-dev/config"'
+
+  cat "$TOKEN_FILE" | rpi_ssh \
+    'umask 077
+     cat >"$HOME/.local/state/rpi-dev/proxy-token"
+     chmod 600 "$HOME/.local/state/rpi-dev/proxy-token"'
+
+  cat "$DOTFILES_ROOT/rpi-dev/pi/with-1p" | rpi_ssh \
+    'cat >"$HOME/.local/libexec/rpi-dev/with-1p"
+     chmod 755 "$HOME/.local/libexec/rpi-dev/with-1p"
+     ln -sfn "$HOME/.local/libexec/rpi-dev/with-1p" "$HOME/.local/bin/with-1p"'
+}
+
+install_all() {
+  load_config
+  ensure_local_state
+
+  ln -sfn "$DOTFILES_ROOT/bin/rpi-dev" "$HOME/.local/bin/rpi-dev"
+  render_plist "$DOTFILES_ROOT/rpi-dev/launchd/$PROXY_LABEL.plist.template" "$PROXY_PLIST"
+  render_plist "$DOTFILES_ROOT/rpi-dev/launchd/$TUNNEL_LABEL.plist.template" "$TUNNEL_PLIST"
+  deploy_pi_client
+
+  cat <<EOF
+Installed rpi-dev.
+
+Mac command: $HOME/.local/bin/rpi-dev
+Configuration: $CONFIG_FILE
+Logs:          $LOG_DIR
+Pi command:    /home/admin/.local/bin/with-1p
+
+Run: rpi-dev start
+EOF
+}
+
+service_loaded() {
+  local label=$1
+  launchctl print "$LAUNCH_DOMAIN/$label" >/dev/null 2>&1
+}
+
+start_service() {
+  local label=$1
+  local plist=$2
+
+  if ! service_loaded "$label"; then
+    launchctl bootstrap "$LAUNCH_DOMAIN" "$plist"
+  fi
+}
+
+service_running() {
+  local label=$1
+  launchctl print "$LAUNCH_DOMAIN/$label" 2>/dev/null | grep -q 'state = running'
+}
+
+stop_service() {
+  local label=$1
+
+  if service_loaded "$label"; then
+    launchctl bootout "$LAUNCH_DOMAIN/$label"
+  fi
+}
+
+wait_for_url() {
+  local url=$1
+  local attempts=${2:-30}
+
+  for ((attempt = 1; attempt <= attempts; attempt++)); do
+    if curl --fail --silent --show-error --max-time 1 "$url" >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 0.2
+  done
+  return 1
+}
+
+tunnel_ready() {
+  local port
+
+  tunnel_control_available || return 1
+
+  for port in \
+    "$RPI_DEV_OPENCODE_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_API_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_DB_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_STUDIO_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_MAIL_LOCAL_PORT"; do
+    tcp_open "$port" || return 1
+  done
+
+  curl --fail --silent --max-time 1 \
+    "http://127.0.0.1:$RPI_DEV_PROXY_TEST_LOCAL_PORT/healthz" >/dev/null 2>&1
+}
+
+wait_for_tunnel() {
+  echo "Waiting for SSH tunnel; approve a 1Password SSH prompt if one appears..."
+  for ((attempt = 1; attempt <= 120; attempt++)); do
+    tunnel_ready && return 0
+    sleep 1
+  done
+  return 1
+}
+
+start_all() {
+  load_config
+  ensure_local_state
+
+  [[ -f "$PROXY_PLIST" && -f "$TUNNEL_PLIST" ]] || {
+    echo "rpi-dev is not installed; run: rpi-dev install" >&2
+    exit 1
+  }
+
+  start_service "$PROXY_LABEL" "$PROXY_PLIST"
+  if ! wait_for_url "http://$RPI_DEV_PROXY_HOST:$RPI_DEV_PROXY_PORT/healthz"; then
+    echo "1Password proxy failed to start; run: rpi-dev logs proxy" >&2
+    exit 1
+  fi
+
+  start_service "$TUNNEL_LABEL" "$TUNNEL_PLIST"
+  if ! wait_for_tunnel; then
+    echo "SSH tunnel failed to become ready; run: rpi-dev logs tunnel" >&2
+    exit 1
+  fi
+  echo "rpi-dev services started"
+  status_all
+}
+
+stop_all() {
+  load_config
+  stop_service "$TUNNEL_LABEL"
+  stop_service "$PROXY_LABEL"
+  if [[ -S "$TUNNEL_SOCKET" ]] && ! tunnel_control_available; then
+    rm -f "$TUNNEL_SOCKET"
+  fi
+  echo "rpi-dev services stopped"
+}
+
+status_line() {
+  local label=$1
+  local status=$2
+  printf '%-28s %s\n' "$label" "$status"
+}
+
+tcp_open() {
+  nc -z -w 1 127.0.0.1 "$1" >/dev/null 2>&1
+}
+
+status_all() {
+  local failures=0
+  load_config
+
+  if [[ -x "$RPI_DEV_OP_BIN" ]]; then
+    status_line "Mac 1Password CLI" "OK ($("$RPI_DEV_OP_BIN" --version))"
+  else
+    status_line "Mac 1Password CLI" "MISSING"
+    failures=$((failures + 1))
+  fi
+
+  if service_running "$PROXY_LABEL"; then
+    status_line "Proxy LaunchAgent" "RUNNING"
+  else
+    status_line "Proxy LaunchAgent" "STOPPED"
+    failures=$((failures + 1))
+  fi
+
+  if curl --fail --silent --max-time 1 \
+    "http://$RPI_DEV_PROXY_HOST:$RPI_DEV_PROXY_PORT/healthz" >/dev/null 2>&1; then
+    status_line "Mac proxy endpoint" "OK ($RPI_DEV_PROXY_HOST:$RPI_DEV_PROXY_PORT)"
+  else
+    status_line "Mac proxy endpoint" "UNREACHABLE"
+    failures=$((failures + 1))
+  fi
+
+  if service_running "$TUNNEL_LABEL"; then
+    status_line "Tunnel LaunchAgent" "RUNNING"
+  else
+    status_line "Tunnel LaunchAgent" "STOPPED"
+    failures=$((failures + 1))
+  fi
+
+  if tunnel_control_available; then
+    status_line "SSH control socket" "OK"
+  else
+    status_line "SSH control socket" "UNREACHABLE"
+    failures=$((failures + 1))
+  fi
+
+  for port in \
+    "$RPI_DEV_OPENCODE_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_API_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_DB_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_STUDIO_LOCAL_PORT" \
+    "$RPI_DEV_SUPABASE_MAIL_LOCAL_PORT"; do
+    if tcp_open "$port"; then
+      status_line "Local forward :$port" "OK"
+    else
+      status_line "Local forward :$port" "UNREACHABLE"
+      failures=$((failures + 1))
+    fi
+  done
+
+  if curl --fail --silent --max-time 2 \
+    "http://127.0.0.1:$RPI_DEV_PROXY_TEST_LOCAL_PORT/healthz" >/dev/null 2>&1; then
+    status_line "Proxy tunnel round trip" "OK (Mac → Pi → Mac)"
+  else
+    status_line "Proxy tunnel round trip" "UNREACHABLE"
+    failures=$((failures + 1))
+  fi
+
+  if ((failures > 0)); then
+    return 1
+  fi
+}
+
+doctor() {
+  local failures=0
+  local health
+  load_config
+
+  echo "rpi-dev doctor"
+  echo
+  status_all || failures=$((failures + 1))
+  echo
+
+  for dependency in ssh curl jq nc plutil launchctl; do
+    if command -v "$dependency" >/dev/null 2>&1; then
+      status_line "Dependency: $dependency" "OK"
+    else
+      status_line "Dependency: $dependency" "MISSING"
+      failures=$((failures + 1))
+    fi
+  done
+
+  if [[ -d "$RPI_DEV_LOCAL_REPO/.git" || -f "$RPI_DEV_LOCAL_REPO/.git" ]]; then
+    status_line "Mac laiki2 checkout" "OK ($RPI_DEV_LOCAL_REPO)"
+  else
+    status_line "Mac laiki2 checkout" "MISSING"
+    failures=$((failures + 1))
+  fi
+
+  if [[ "$(stat -f '%Lp' "$TOKEN_FILE" 2>/dev/null || true)" == "600" ]]; then
+    status_line "Mac proxy token mode" "OK (0600)"
+  else
+    status_line "Mac proxy token mode" "INVALID"
+    failures=$((failures + 1))
+  fi
+
+  health=$(curl --fail --silent --max-time 1 \
+    "http://$RPI_DEV_PROXY_HOST:$RPI_DEV_PROXY_PORT/healthz" 2>/dev/null || true)
+  if [[ -n "$health" ]]; then
+    status_line "Proxy allowlist" "$(printf '%s' "$health" | jq -r '.allowed_items | tostring') items"
+  fi
+
+  if rpi_ssh \
+    'test -x "$HOME/.local/bin/with-1p" &&
+     test "$(stat -c %a "$HOME/.local/state/rpi-dev/proxy-token")" = 600'; then
+    status_line "Pi with-1p installation" "OK"
+  else
+    status_line "Pi with-1p installation" "INVALID"
+    failures=$((failures + 1))
+  fi
+
+  if rpi_ssh \
+    'docker inspect -f "{{.State.Health.Status}}" \
+       supabase_db_supabase-laiki2-develop 2>/dev/null | grep -q healthy'; then
+    status_line "Pi Supabase database" "HEALTHY"
+  else
+    status_line "Pi Supabase database" "NOT HEALTHY"
+    failures=$((failures + 1))
+  fi
+
+  echo
+  if [[ -s "$LAST_1P_SUCCESS_FILE" ]]; then
+    status_line "1Password authorization" "LAST OK ($(cat "$LAST_1P_SUCCESS_FILE"))"
+  else
+    status_line "1Password authorization" "NOT TESTED (run: rpi-dev test-1p)"
+  fi
+
+  if ((failures > 0)); then
+    echo "rpi-dev doctor found $failures problem(s)" >&2
+    return 1
+  fi
+
+  echo "All noninteractive checks passed"
+}
+
+show_logs() {
+  local service=${1:-}
+
+  case "$service" in
+    proxy)
+      tail -n 100 "$LOG_DIR/proxy.out.log" "$LOG_DIR/proxy.err.log" 2>/dev/null || true
+      ;;
+    tunnel)
+      tail -n 100 "$LOG_DIR/tunnel.out.log" "$LOG_DIR/tunnel.err.log" 2>/dev/null || true
+      ;;
+    *)
+      echo "Usage: rpi-dev logs <proxy|tunnel>" >&2
+      exit 2
+      ;;
+  esac
+}
+
+test_one_password() {
+  local quoted_remote_repo
+
+  load_config
+  cat <<'EOF'
+Testing 1Password through the Pi. Approve the biometric prompt on this Mac.
+Only variable presence will be printed; secret values are never displayed.
+EOF
+
+  printf -v quoted_remote_repo '%q' "$RPI_DEV_REMOTE_REPO"
+  if rpi_ssh \
+    "RPI_DEV_REMOTE_REPO=$quoted_remote_repo /bin/bash -s" <<'REMOTE'
+set -euo pipefail
+cd "$RPI_DEV_REMOTE_REPO"
+"$HOME/.local/bin/with-1p" env \
+  MISE_GLOBAL_CONFIG_FILE="$HOME/dotfiles/mise/config.toml" \
+  APP_ENV=development \
+  "$HOME/.local/bin/mise" exec -- \
+  ./node_modules/.bin/varlock run \
+  --clear-cache \
+  --path ./apps/web/.env.schema \
+  --inject vars \
+  --no-redact-stdout \
+  -- bun -e '
+const keys = ["VITE_SUPABASE_URL", "SUPABASE_SECRET_KEY", "ENCRYPTION_KEY"];
+console.log(Object.fromEntries(keys.map((key) => [key, Boolean(process.env[key])])));
+'
+REMOTE
+  then
+    date -u '+%Y-%m-%dT%H:%M:%SZ' >"$LAST_1P_SUCCESS_FILE"
+    echo "1Password proxy test passed"
+  else
+    return 1
+  fi
+}
+
+rotate_token() {
+  local temporary
+  load_config
+  ensure_local_state
+  temporary=$(mktemp "$STATE_DIR/proxy-token.XXXXXX")
+  trap 'rm -f "$temporary"' EXIT
+  /opt/homebrew/bin/openssl rand -hex 32 >"$temporary"
+  chmod 600 "$temporary"
+  mv "$temporary" "$TOKEN_FILE"
+  trap - EXIT
+  deploy_pi_client
+
+  if service_loaded "$PROXY_LABEL"; then
+    launchctl kickstart -k "$LAUNCH_DOMAIN/$PROXY_LABEL"
+  fi
+  echo "Proxy token rotated"
+}
+
+proxy_service() {
+  load_config
+  ensure_local_state
+  export OP_HOST_PROXY_TOKEN="$(cat "$TOKEN_FILE")"
+  export OP_HOST_PROXY_HOST="$RPI_DEV_PROXY_HOST"
+  export OP_HOST_PROXY_PORT="$RPI_DEV_PROXY_PORT"
+  export OP_HOST_PROXY_OP_BIN="$RPI_DEV_OP_BIN"
+  export RPI_DEV_REPO="$RPI_DEV_LOCAL_REPO"
+  export MISE_GLOBAL_CONFIG_FILE="$DOTFILES_ROOT/mise/config.toml"
+  exec "$RPI_DEV_MISE_BIN" exec -- bun "$DOTFILES_ROOT/rpi-dev/op-proxy.ts"
+}
+
+tunnel_service() {
+  load_config
+  if [[ -S "$TUNNEL_SOCKET" ]] && ! tunnel_control_available; then
+    rm -f "$TUNNEL_SOCKET"
+  fi
+  exec /usr/bin/ssh -NT \
+    -M \
+    -S "$TUNNEL_SOCKET" \
+    -o BatchMode=yes \
+    -o ExitOnForwardFailure=yes \
+    -o ServerAliveInterval=30 \
+    -o ServerAliveCountMax=3 \
+    -o ConnectTimeout=10 \
+    -L "127.0.0.1:$RPI_DEV_OPENCODE_LOCAL_PORT:127.0.0.1:$RPI_DEV_OPENCODE_REMOTE_PORT" \
+    -L "127.0.0.1:$RPI_DEV_SUPABASE_API_LOCAL_PORT:127.0.0.1:$RPI_DEV_SUPABASE_API_REMOTE_PORT" \
+    -L "127.0.0.1:$RPI_DEV_SUPABASE_DB_LOCAL_PORT:127.0.0.1:$RPI_DEV_SUPABASE_DB_REMOTE_PORT" \
+    -L "127.0.0.1:$RPI_DEV_SUPABASE_STUDIO_LOCAL_PORT:127.0.0.1:$RPI_DEV_SUPABASE_STUDIO_REMOTE_PORT" \
+    -L "127.0.0.1:$RPI_DEV_SUPABASE_MAIL_LOCAL_PORT:127.0.0.1:$RPI_DEV_SUPABASE_MAIL_REMOTE_PORT" \
+    -L "127.0.0.1:$RPI_DEV_PROXY_TEST_LOCAL_PORT:127.0.0.1:$RPI_DEV_REMOTE_PROXY_PORT" \
+    -R "127.0.0.1:$RPI_DEV_REMOTE_PROXY_PORT:127.0.0.1:$RPI_DEV_PROXY_PORT" \
+    "$RPI_DEV_HOST"
+}
+
+command=${1:-}
+shift || true
+
+case "$command" in
+  install) install_all "$@" ;;
+  start) start_all "$@" ;;
+  stop) stop_all "$@" ;;
+  restart) stop_all; start_all ;;
+  status) status_all "$@" ;;
+  doctor) doctor "$@" ;;
+  logs) show_logs "$@" ;;
+  test-1p) test_one_password "$@" ;;
+  rotate-token) rotate_token "$@" ;;
+  proxy-service) proxy_service "$@" ;;
+  tunnel-service) tunnel_service "$@" ;;
+  -h|--help|help) usage ;;
+  *) usage >&2; exit 2 ;;
+esac
