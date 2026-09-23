@@ -56,7 +56,7 @@ export default {
                   return
                 }
 
-                context.ui.tabs.open(session.id)
+                context.ui.tabs.focus(session.id)
                 if (current) context.ui.tabs.close(current.sessionID)
               },
             },
