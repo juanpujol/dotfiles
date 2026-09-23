@@ -84,7 +84,7 @@ description = "Quick Actions launcher"
 [[keys.command]]
 key = "prefix+g"
 type = "popup"
-command = "lazygit"
+command = 'PATH="$HOME/.local/bin:$PATH" exec lazygit'
 description = "Floating lazygit"
 width = "95%"
 height = "95%"
