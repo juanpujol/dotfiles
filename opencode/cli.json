@@ -1,5 +1,5 @@
 {
-  "plugins": ["./plugins/tab-management"],
+  "plugins": ["./plugins/tab-management", "./plugins/session-shortcuts"],
   "keybinds": {
     "prompt.queue": "none",
     "input.newline": "shift+return,ctrl+return,alt+return,ctrl+j",

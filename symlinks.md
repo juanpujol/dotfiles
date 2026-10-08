@@ -27,6 +27,7 @@ These symlinks should point to `/Users/juan/dotfiles`:
 15. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (OpenCode V2 config)
 16. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (OpenCode V2 CLI/TUI config)
 17. `~/.config/opencode/plugins/tab-management/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/tab-management/tui.ts` (session-tab shortcuts)
+18. `~/.config/opencode/plugins/session-shortcuts/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/session-shortcuts/tui.ts` (Ctrl+G session-picker scope toggle)
 
 ## Outbound shortcuts
 
