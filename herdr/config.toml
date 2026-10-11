@@ -22,6 +22,9 @@ agent_panel_sort = "priority"
 # Match tmux prefix C-a (herdr default is ctrl+b)
 prefix = "ctrl+a"
 
+# Open Herdr's native delete-worktree confirmation.
+remove_worktree = "prefix+ctrl+d"
+
 # Prefixed pane focus — no-script fallback, works from any pane.
 focus_pane_left = "prefix+h"
 focus_pane_down = "prefix+j"
