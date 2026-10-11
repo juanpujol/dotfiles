@@ -45,9 +45,17 @@ Pi and OMP discover `~/.agents/skills` directly. Do not also install or link the
 
 The consolidation backup is `~/.local/share/dotfiles-backups/agent-skills-20261010-222538/`. It preserves all original directories, including older differing Windsurf/OpenCode copies. Existing `~/.agents` skills took precedence; otherwise the current Claude bundle was used. Built-in skills, plugin caches, and vendor imports were not migrated.
 
-## Pi permission auto mode
+## Pi session configuration
 
-Permission configuration lives in `pi/extensions/` in this repository. Link only the config files, not the extension directories, so review logs stay outside git:
+`pi/settings.json` is the source of truth for new Pi instances: `openai-codex/gpt-6.1-sol`, `medium` thinking, the dark theme, and `@llblab/pi-codex-usage@0.13.0`. `zshrc` sets `PI_CODING_AGENT_DIR="$HOME/.pi/agent"`, whose settings file is linked into this repository. The Herdr extension symlink is retained but disabled in settings to match the preserved session's extension setup.
+
+The original session directory at `~/.local/share/omp` is preserved unchanged. This is legacy storage, not an OMP installation; running sessions using it do not need to restart. Credentials, caches, trust, and sessions stay outside git. Existing sessions in the legacy directory can still be opened with `pi --session /absolute/path/to/session.jsonl`.
+
+The conflicting default configuration was backed up to `~/.local/share/dotfiles-backups/pi-session-config-20261011-183923/` before migration.
+
+## Saved Pi permission configuration (inactive)
+
+Permission packages are not enabled in `pi/settings.json`, matching the preserved session's no-per-command-approval behavior. Their configuration is retained in `pi/extensions/` for reference; do not reinstall these packages unless you want permission gates again. Link only the config files, not the extension directories, so review logs stay outside git:
 
 ```sh
 for extension in pi-permission-system pi-permission-classifier; do
@@ -59,7 +67,7 @@ done
 
 Run this on each machine after linking `pi/settings.json`. Existing destination files must be reviewed and moved aside before creating the links. Restart Pi after setup. Use the default Pi agent directory; a custom `PI_CODING_AGENT_DIR` changes where Pi looks for these links.
 
-The classifier loads before the permission system and is enabled through `authorizerChain`. It uses the session model with a 15-second timeout; model failures and uncertain verdicts fall back to a prompt. `/permission-model` selects a separate judge model and saves the choice through the config symlink into dotfiles. Routine project file operations and listed Git inspection commands are allowed directly. Sensitive paths are denied, outside-project access still prompts, and YOLO mode stays off. This setup is for Pi; the permission extension does not officially support Oh My Pi.
+If re-enabled, the classifier must load before the permission system. The saved policy enables it through `authorizerChain`, uses the session model with a 15-second timeout, and keeps YOLO off. These rules, including sensitive-path blocks, are not enforced while the permission packages are inactive.
 
 ## Outbound shortcuts
 

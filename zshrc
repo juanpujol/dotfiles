@@ -127,10 +127,9 @@ fi
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-# Pi uses ~/.pi/agent; discard the old OMP directory inherited by persistent terminals.
-if [[ "$PI_CODING_AGENT_DIR" == "$XDG_DATA_HOME/omp" ]]; then
-  unset PI_CODING_AGENT_DIR
-fi
+# Pi settings are symlinked from ~/dotfiles/pi; use the same agent directory in every new shell.
+# Leave the legacy directory intact for sessions that are already using it.
+export PI_CODING_AGENT_DIR="$HOME/.pi/agent"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"

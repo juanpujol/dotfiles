@@ -3,10 +3,9 @@
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6.1-sol",
   "theme": "dark",
-  "defaultThinkingLevel": "xhigh",
+  "defaultThinkingLevel": "medium",
   "packages": [
-    "npm:pi-permission-classifier@0.5.2",
-    "npm:@gotgenes/pi-permission-system@40.1.4",
-    "npm:pi-web-access"
-  ]
+    "npm:@llblab/pi-codex-usage@0.13.0"
+  ],
+  "extensions": ["-extensions/herdr-agent-state.ts"]
 }
