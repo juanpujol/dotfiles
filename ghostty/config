@@ -5,7 +5,7 @@ clipboard-write = allow
 clipboard-trim-trailing-spaces = true
 mouse-hide-while-typing = true
 confirm-close-surface = false
-font-size = 20
+font-size = 16
 keybind = shift+enter=text:\x1b\r
 
 # Cursor trail shader
