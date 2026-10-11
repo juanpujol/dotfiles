@@ -33,6 +33,17 @@ These symlinks should point to `/Users/juan/dotfiles`:
 21. `~/.pi/agent/mcp.json` -> `/Users/juan/dotfiles/pi/mcp.json` (user-level MCP servers)
 22. `~/.pi/agent/prompts` -> `/Users/juan/dotfiles/pi/prompts`
 23. `~/.pi/agent/extensions/herdr-agent-state.ts` -> `/Users/juan/dotfiles/pi/extensions/herdr-agent-state.ts`
+24. `~/.agents` -> `/Users/juan/dotfiles/agents` (canonical global skills and installer lock file)
+
+## Global agent skills
+
+All user-installed global skills live in `agents/skills/`. See `agents/README.md` for setup and maintenance.
+
+Existing skill entries under Claude, Codex, Cursor, Windsurf (both legacy and current paths), Cline, OpenCode (both paths), and Crush are symlinks to `~/.agents/skills/<name>`. Their parent directories remain real; Codex's `.system` and app-managed runtime directories stay outside dotfiles.
+
+Pi and OMP discover `~/.agents/skills` directly. Do not also install or link these skills under `~/.pi/agent/skills`, `~/.omp/agent/skills`, or `~/.local/share/omp/skills`: redundant discovery paths can produce skill-name collisions.
+
+The consolidation backup is `~/.local/share/dotfiles-backups/agent-skills-20261010-222538/`. It preserves all original directories, including older differing Windsurf/OpenCode copies. Existing `~/.agents` skills took precedence; otherwise the current Claude bundle was used. Built-in skills, plugin caches, and vendor imports were not migrated.
 
 ## Pi permission auto mode
 
