@@ -28,6 +28,27 @@ These symlinks should point to `/Users/juan/dotfiles`:
 16. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (OpenCode V2 CLI/TUI config)
 17. `~/.config/opencode/plugins/tab-management/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/tab-management/tui.ts` (session-tab shortcuts)
 18. `~/.config/opencode/plugins/session-shortcuts/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/session-shortcuts/tui.ts` (Ctrl+G session-picker scope toggle)
+19. `~/.pi/agent/settings.json` -> `/Users/juan/dotfiles/pi/settings.json` (pi; file-only links, the dir stays real so auth, trust, sessions and the managed install do not enter the repo)
+20. `~/.pi/agent/keybindings.json` -> `/Users/juan/dotfiles/pi/keybindings.json`
+21. `~/.pi/agent/mcp.json` -> `/Users/juan/dotfiles/pi/mcp.json` (user-level MCP servers)
+22. `~/.pi/agent/prompts` -> `/Users/juan/dotfiles/pi/prompts`
+23. `~/.pi/agent/extensions/herdr-agent-state.ts` -> `/Users/juan/dotfiles/pi/extensions/herdr-agent-state.ts`
+
+## Pi permission auto mode
+
+Permission configuration lives in `pi/extensions/` in this repository. Link only the config files, not the extension directories, so review logs stay outside git:
+
+```sh
+for extension in pi-permission-system pi-permission-classifier; do
+  mkdir -p "$HOME/.pi/agent/extensions/$extension"
+  ln -s "$HOME/dotfiles/pi/extensions/$extension/config.json" \
+    "$HOME/.pi/agent/extensions/$extension/config.json"
+done
+```
+
+Run this on each machine after linking `pi/settings.json`. Existing destination files must be reviewed and moved aside before creating the links. Restart Pi after setup. Use the default Pi agent directory; a custom `PI_CODING_AGENT_DIR` changes where Pi looks for these links.
+
+The classifier loads before the permission system and is enabled through `authorizerChain`. It uses the session model with a 15-second timeout; model failures and uncertain verdicts fall back to a prompt. `/permission-model` selects a separate judge model and saves the choice through the config symlink into dotfiles. Routine project file operations and listed Git inspection commands are allowed directly. Sensitive paths are denied, outside-project access still prompts, and YOLO mode stays off. This setup is for Pi; the permission extension does not officially support Oh My Pi.
 
 ## Outbound shortcuts
 
