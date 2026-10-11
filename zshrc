@@ -299,3 +299,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Keep user-local launchers ahead of paths added by toolchain initialization.
+export PATH="$HOME/.local/bin:$PATH"

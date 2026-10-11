@@ -64,8 +64,6 @@ brew "ripgrep"
 brew "starship"
 # Command-line tool for creating and testing Tree-sitter parsers
 brew "tree-sitter-cli"
-# Coding agent with the IDE wired in
-brew "can1357/tap/omp"
 # Official tldr client written in Rust
 brew "tlrc"
 # Terminal multiplexer
