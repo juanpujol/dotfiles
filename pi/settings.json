@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "1.1.0",
+  "lastChangelogVersion": "1.4.0",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6.1-sol",
   "theme": "dark",
@@ -7,5 +7,7 @@
   "packages": [
     "npm:@llblab/pi-codex-usage@0.13.0"
   ],
-  "extensions": ["-extensions/herdr-agent-state.ts"]
+  "extensions": [
+    "-extensions/herdr-agent-state.ts"
+  ]
 }
