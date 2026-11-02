@@ -1,0 +1,4 @@
+interface:
+  display_name: "tsk"
+  short_description: "Manage shared tasks, handoffs, and verified delivery"
+  default_prompt: "Use $tsk to manage this issue's shared tasks, record agent handoffs, and close verified work."
