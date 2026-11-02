@@ -14,3 +14,8 @@ custom-shader-animation = true
 cursor-style = block
 cursor-color = #f5f0c4
 
+# Pin symbol glyphs that rendered as letters (check, star, checkbox) inside herdr
+# after the Ghostty 1.4.0 update. Remove these two lines to undo.
+font-codepoint-map = U+2714-U+27BF=Zapf Dingbats
+font-codepoint-map = U+2610-U+2612=Apple Symbols
+
