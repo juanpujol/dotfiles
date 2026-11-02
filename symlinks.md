@@ -34,6 +34,7 @@ These symlinks should point to `/Users/juan/dotfiles`:
 22. `~/.pi/agent/prompts` -> `/Users/juan/dotfiles/pi/prompts`
 23. `~/.pi/agent/extensions/herdr-agent-state.ts` -> `/Users/juan/dotfiles/pi/extensions/herdr-agent-state.ts`
 24. `~/.agents` -> `/Users/juan/dotfiles/agents` (canonical global skills and installer lock file)
+25. `~/.codex/config.toml` -> `/Users/juan/dotfiles/codex/config.toml` (Codex CLI/TUI and desktop settings; file-only symlink)
 
 ## Global agent skills
 
@@ -44,6 +45,14 @@ Existing skill entries under Claude, Codex, Cursor, Windsurf (both legacy and cu
 Pi and OMP discover `~/.agents/skills` directly. Do not also install or link these skills under `~/.pi/agent/skills`, `~/.omp/agent/skills`, or `~/.local/share/omp/skills`: redundant discovery paths can produce skill-name collisions.
 
 The consolidation backup is `~/.local/share/dotfiles-backups/agent-skills-20261010-222538/`. It preserves all original directories, including older differing Windsurf/OpenCode copies. Existing `~/.agents` skills took precedence; otherwise the current Claude bundle was used. Built-in skills, plugin caches, and vendor imports were not migrated.
+
+## Codex configuration
+
+`codex/config.toml` is the source of truth for Codex CLI/TUI and desktop settings. The existing configuration was preserved in full, including model preferences, plugins, MCP servers, project trust entries, and desktop preferences. It contains machine-specific paths under `/Users/juan` and `/Applications`; review these before using it on another machine.
+
+Only `~/.codex/config.toml` is linked. The `~/.codex` directory stays real so credentials, sessions, history, caches, databases, and app-managed runtime files stay outside git. Codex configuration changes made through this link also change the repository file; if an app replaces the file rather than writing through it, check and restore the symlink after reviewing its changes.
+
+The pre-migration config is backed up at `~/.local/share/dotfiles-backups/codex-config-20261012-152548/config.toml`.
 
 ## Pi session configuration
 
