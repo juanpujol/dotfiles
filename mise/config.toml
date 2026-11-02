@@ -5,10 +5,17 @@ lazydocker = "latest"
 node = "24"
 python = "latest"
 ruby = "3.4.2"
+# MCP gateway, see ~/dotfiles/mcp/. v1 and v2 tags share one repo, so pin exactly.
+"github:UsefulSoftwareCo/executor" = { version = "2.0.0-beta.34", version_prefix = "executor@", asset_pattern = "executor-*-darwin-arm64.tgz" }
 
 [env]
 # Load secrets globally from synced 1Password files
 _.file = "~/.secrets/openai.env"
+# Executor: no anonymous analytics, no daily npm update check
+DO_NOT_TRACK = "1"
+EXECUTOR_NO_UPDATE_CHECK = "1"
 
 [settings]
 all_compile = false
+# github: backend (Executor) is experimental in mise 2025.7
+experimental = true

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Starts the Executor background server at login (v2 has no OS service of its own). See ~/dotfiles/mcp/README.md. -->
+  <key>Label</key>
+  <string>dev.juan.executor</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/juan/.local/bin/mise</string>
+    <string>exec</string>
+    <string>-C</string>
+    <string>/Users/juan</string>
+    <string>--</string>
+    <string>executor</string>
+    <string>service</string>
+    <string>start</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>MISE_GLOBAL_CONFIG_FILE</key>
+    <string>/Users/juan/dotfiles/mise/config.toml</string>
+    <key>PATH</key>
+    <string>/Users/juan/.local/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/juan/Library/Logs/executor-launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/juan/Library/Logs/executor-launchd.log</string>
+</dict>
+</plist>
