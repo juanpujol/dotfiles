@@ -75,6 +75,8 @@ printf '%s\n' "$HERDR_WORKSPACE_ID" "$HERDR_TAB_ID" "$HERDR_PANE_ID"
 
 Prefer `--current` when a pane command should target the calling pane. Omitting a target may use the UI-focused pane, which can belong to the user or another client.
 
+Codex exception: Codex runs shell commands through a shared daemon whose environment snapshot carries the `HERDR_*` IDs of whichever pane started that daemon, so inside Codex `$HERDR_WORKSPACE_ID`, `$HERDR_TAB_ID`, `$HERDR_PANE_ID` and `--current` can resolve to another workspace. In Codex, use the explicit IDs your instructions give you; if none were given, stop and ask rather than create tabs or panes.
+
 Discover live state with:
 
 ```bash
