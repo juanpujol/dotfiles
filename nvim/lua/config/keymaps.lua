@@ -18,7 +18,11 @@ vim.keymap.set("i", "<M-S-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Line Up
 -- Only active inside a herdr pane; christoomey/vim-tmux-navigator handles tmux.
 -- Moves the nvim split, and at an edge hands focus off to the herdr pane in
 -- that direction (the nvim half of ogulcancelik/herdr#281).
-if vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "" then
+-- In the herdr desktop app (herdr-app), every terminal has HC_TERMINAL_ID and the
+-- shortcuts mod in herdr-app/mods forwards ctrl-hjkl here; edges call pane.go.
+local in_herdr = vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= ""
+local in_herdr_app = not in_herdr and vim.env.HC_TERMINAL_ID and vim.env.HC_TERMINAL_ID ~= ""
+if in_herdr or in_herdr_app then
   local herdr = vim.env.HERDR_BIN_PATH
   if herdr == nil or herdr == "" then
     herdr = "herdr"
@@ -30,7 +34,11 @@ if vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "" then
       return -- moved within nvim
     end
     -- At a split edge: cross into the neighbouring herdr pane.
-    vim.fn.system({ herdr, "pane", "focus", "--direction", dir, "--current" })
+    if in_herdr_app then
+      vim.fn.system({ "herdr-app", "do", "pane.go", "--direction", dir })
+    else
+      vim.fn.system({ herdr, "pane", "focus", "--direction", dir, "--current" })
+    end
   end
   local dirs = { h = "left", j = "down", k = "up", l = "right" }
   for key, dir in pairs(dirs) do

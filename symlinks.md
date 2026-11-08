@@ -14,27 +14,28 @@ These symlinks should point to `/Users/juan/dotfiles`:
 2. `~/.config/lazygit` -> `/Users/juan/dotfiles/lazygit`
 3. `~/.config/starship.toml` -> `/Users/juan/dotfiles/starship.toml`
 4. `~/.config/herdr/config.toml` -> `/Users/juan/dotfiles/herdr/config.toml` (file-only symlink; the dir stays real so herdr logs/sockets do not enter the repo)
-5. `~/.config/raycast` -> `/Users/juan/dotfiles/raycast`
-6. `~/.config/zellij` -> `/Users/juan/dotfiles/zellij`
-7. `~/.config/ghostty` -> `/Users/juan/dotfiles/ghostty`
-8. `~/.vim` -> `/Users/juan/dotfiles/vim`
-9. `~/.tmux.conf` -> `/Users/juan/dotfiles/tmux.conf`
-10. `~/.zshrc` -> `/Users/juan/dotfiles/zshrc`
-11. `~/.tmux` -> `/Users/juan/dotfiles/tmux`
-12. `~/.oh-my-zsh` -> `/Users/juan/dotfiles/oh-my-zsh`
-13. `~/.gitconfig` -> `/Users/juan/dotfiles/gitconfig`
-14. `~/.gnhf/config.yml` -> `/Users/juan/dotfiles/gnhf/config.yml` (file-only symlink; the dir stays real so gnhf runs/logs do not enter the repo)
-15. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (OpenCode V2 config)
-16. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (OpenCode V2 CLI/TUI config)
-17. `~/.config/opencode/plugins/tab-management/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/tab-management/tui.ts` (session-tab shortcuts)
-18. `~/.config/opencode/plugins/session-shortcuts/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/session-shortcuts/tui.ts` (Ctrl+G session-picker scope toggle)
-19. `~/.pi/agent/settings.json` -> `/Users/juan/dotfiles/pi/settings.json` (pi; file-only links, the dir stays real so auth, trust, sessions and the managed install do not enter the repo)
-20. `~/.pi/agent/keybindings.json` -> `/Users/juan/dotfiles/pi/keybindings.json`
-21. `~/.pi/agent/mcp.json` -> `/Users/juan/dotfiles/pi/mcp.json` (user-level MCP servers)
-22. `~/.pi/agent/prompts` -> `/Users/juan/dotfiles/pi/prompts`
-23. `~/.pi/agent/extensions/herdr-agent-state.ts` -> `/Users/juan/dotfiles/pi/extensions/herdr-agent-state.ts`
-24. `~/.agents` -> `/Users/juan/dotfiles/agents` (canonical global skills and installer lock file)
-25. `~/.codex/config.toml` -> `/Users/juan/dotfiles/codex/config.toml` (Codex CLI/TUI and desktop settings; file-only symlink)
+5. `~/.config/herdr-app/{keys.json,settings.json,themes/vesper.json,themes/catppuccin-mocha.json,mods/prefix,mods/shortcuts}` -> `/Users/juan/dotfiles/herdr-app/...` (Herdr desktop app; file-only links, the dir stays real because the app rewrites its guide, shipped mods and state there. The Settings screen may replace `keys.json`/`settings.json` with a real file: check and restore the link. On a new machine run `herdr-app do mod.open --name shortcuts` once: it opens the invisible kept window that keeps the shortcuts mod loaded (ctrl-hjkl, named new tab/space, prefix actions))
+6. `~/.config/raycast` -> `/Users/juan/dotfiles/raycast`
+7. `~/.config/zellij` -> `/Users/juan/dotfiles/zellij`
+8. `~/.config/ghostty` -> `/Users/juan/dotfiles/ghostty`
+9. `~/.vim` -> `/Users/juan/dotfiles/vim`
+10. `~/.tmux.conf` -> `/Users/juan/dotfiles/tmux.conf`
+11. `~/.zshrc` -> `/Users/juan/dotfiles/zshrc`
+12. `~/.tmux` -> `/Users/juan/dotfiles/tmux`
+13. `~/.oh-my-zsh` -> `/Users/juan/dotfiles/oh-my-zsh`
+14. `~/.gitconfig` -> `/Users/juan/dotfiles/gitconfig`
+15. `~/.gnhf/config.yml` -> `/Users/juan/dotfiles/gnhf/config.yml` (file-only symlink; the dir stays real so gnhf runs/logs do not enter the repo)
+16. `~/.config/opencode/opencode.jsonc` -> `/Users/juan/dotfiles/opencode/opencode.jsonc` (OpenCode V2 config)
+17. `~/.config/opencode/cli.json` -> `/Users/juan/dotfiles/opencode/cli.json` (OpenCode V2 CLI/TUI config)
+18. `~/.config/opencode/plugins/tab-management/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/tab-management/tui.ts` (session-tab shortcuts)
+19. `~/.config/opencode/plugins/session-shortcuts/tui.ts` -> `/Users/juan/dotfiles/opencode/plugins/session-shortcuts/tui.ts` (Ctrl+G session-picker scope toggle)
+20. `~/.pi/agent/settings.json` -> `/Users/juan/dotfiles/pi/settings.json` (pi; file-only links, the dir stays real so auth, trust, sessions and the managed install do not enter the repo)
+21. `~/.pi/agent/keybindings.json` -> `/Users/juan/dotfiles/pi/keybindings.json`
+22. `~/.pi/agent/mcp.json` -> `/Users/juan/dotfiles/pi/mcp.json` (user-level MCP servers)
+23. `~/.pi/agent/prompts` -> `/Users/juan/dotfiles/pi/prompts`
+24. `~/.pi/agent/extensions/herdr-agent-state.ts` -> `/Users/juan/dotfiles/pi/extensions/herdr-agent-state.ts`
+25. `~/.agents` -> `/Users/juan/dotfiles/agents` (canonical global skills and installer lock file)
+26. `~/.codex/config.toml` -> `/Users/juan/dotfiles/codex/config.toml` (Codex CLI/TUI and desktop settings; file-only symlink)
 
 ## Global agent skills
 
