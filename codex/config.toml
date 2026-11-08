@@ -81,7 +81,7 @@ trust_level = "trusted"
 [projects."/Users/juan/Code/@editalote/editalote"]
 trust_level = "trusted"
 
-[projects."/Users/juan/Code/@juanpujol/trellis"]
+[projects."/Users/juan/Code/@juanpujol/aloc"]
 trust_level = "trusted"
 
 [features]
