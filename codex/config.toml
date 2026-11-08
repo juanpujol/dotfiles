@@ -107,8 +107,8 @@ NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.1027.51404"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/juan/.codex/plugins/cache/openai-bundled/browser/26.1027.51404/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.1027.61615"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/juan/.codex/plugins/cache/openai-bundled/browser/26.1027.61615/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/juan/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
 
@@ -182,3 +182,6 @@ gpt-6-astra = 4
 
 [hooks.state."/Users/juan/.codex/hooks.json:session_start:0:0"]
 trusted_hash = "sha256:c2dfe97352d21a236c8ae9991aeb3a43f0870e7a314cad0c42a8974b89eff054"
+
+[hooks.state."/Users/juan/.codex/hooks.json:session_start:1:0"]
+trusted_hash = "sha256:3da181f6a6d78fa2e4446bb51881bea0b4d69562eb909961fa616df84970d643"
