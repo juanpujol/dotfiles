@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Switches the monitor to the Mac when the keyboard connects. See ~/dotfiles/kvm/README.md. -->
+  <key>Label</key>
+  <string>dev.juan.kvm-follow</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/juan/dotfiles/kvm/mac/kvm-follow.sh</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ProcessType</key>
+  <string>Interactive</string>
+  <key>StandardOutPath</key>
+  <string>/Users/juan/Library/Logs/kvm-follow.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/juan/Library/Logs/kvm-follow.log</string>
+</dict>
+</plist>

@@ -48,6 +48,8 @@ brew "go"
 brew "lazygit"
 # Postgres C API library
 brew "libpq", link: true
+# Control external displays over DDC/CI on Apple Silicon (used by kvm/)
+brew "m1ddc"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
 # Manage multiple Node.js versions
