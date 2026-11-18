@@ -40,7 +40,7 @@ Not here, by design: logins and tokens (inside Executor), connection IDs (genera
 | `[laiki] Vercel` | `mcp.vercel.com` | `[laiki] Vercel - full access` | `buy_domain`, `create_or_transfer_domain`, `accept_project_transfer_request`, `replace_domain_dns_records`, `put_firewall_config`, `revoke_kms_signing_key` |
 | `[laiki] PostHog` | `mcp.posthog.com/mcp` | `[laiki] PostHog - full access` | `exec` calls with `--confirm` (destructive) |
 | `[lab1095] Cloudflare` | `mcp.cloudflare.com/mcp` | `[lab1095] Cloudflare - full access` | `execute` code containing a DELETE |
-| `[lab1095] Google juan` | Gmail, Calendar, Drive MCP (`*mcp.googleapis.com/mcp/v1`) | `[lab1095] Google juan - full access` | none (Gmail drafts only) |
+| `[lab1095] Google juan` | Gmail, Calendar, Drive MCP (`*mcp.googleapis.com/mcp/v1`) | `[lab1095] Google juan - full access` (adds `gmail.modify` since 2026-11-14: trash and edit, still no send) | none |
 | `[lab1095] Google ferramentas` | same | `[lab1095] Google ferramentas - full access` | none |
 | `[juanpujol] Google contact@juanpujol.com` | Gmail, Calendar, Drive MCP | `[juanpujol] Google contact@juanpujol.com - full access` | none |
 | `[lab1095] Slack juan` | `mcp.slack.com/mcp` | `[lab1095] Slack juan - full access` (30 user scopes, read and write) | none |

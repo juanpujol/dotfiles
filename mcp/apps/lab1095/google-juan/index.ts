@@ -25,6 +25,8 @@ const google = defineProvider({
       scopes: [
         `${auth}gmail.readonly`,
         `${auth}gmail.compose`,
+        // Trash and edit drafts and messages (trash_message failed with insufficient_scope without it). No gmail.send.
+        `${auth}gmail.modify`,
         `${auth}calendar.calendarlist.readonly`,
         `${auth}calendar.events.freebusy`,
         `${auth}calendar.events`,
@@ -51,7 +53,7 @@ const requirements = { app: { accounts: { google } } };
 
 export default defineApp(requirements, async ({ app, signal }) => {
   const account = app.accounts.google;
-  // No approval prompts: Gmail can only draft, Drive cannot change sharing.
+  // No approval prompts: Gmail can draft, trash and label but not send; Drive cannot change sharing.
   const mount = (url: string) => mcpRouter({ url, account, headers: headers(account), signal });
   return {
     tools: router({
